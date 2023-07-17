@@ -8,8 +8,8 @@ fluidPage(
   fluidRow(column(6, offset = 3,
                   h3("Question preliminaire"),
                   radioButtons("questionP", "Avez-vous réalisé un graphe acyclique dirigé (DAG): ", 
-                               choices = c("Yes", "No")),
-                  actionButton("block_two", "Valider"),
+                               choices = c("Oui", "Non")),
+                  actionButton("block_prelim", "Valider"),
                   br()
                   )
            ),
@@ -21,7 +21,9 @@ fluidPage(
     column(12,
            wellPanel(
              h3("Objectif"),
-             source("Questions//Objectifs.R")
+             #source("Questions//Objectifs.R")$value
+             uiOutput("Objectif1"),
+             uiOutput("Objectif2")
            )),
     
     column(12,
@@ -35,3 +37,4 @@ fluidPage(
            ))
   )
 )
+

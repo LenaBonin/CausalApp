@@ -8,6 +8,7 @@
 #
 
 library(shiny)
+library(shinyWidgets)
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
@@ -37,8 +38,12 @@ ui <- fluidPage(
 
 # Define server logic required to draw a histogram
 server <- function(input, output) {
-
-    
+  
+  ## Display first block of objectif questions
+  source("Questions\\QuestionnaireServer.R", local = T)$value 
+  
+  
+  
 }
 
 # Run the application 
