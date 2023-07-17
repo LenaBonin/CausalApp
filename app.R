@@ -17,13 +17,13 @@ ui <- fluidPage(
                 tags$style(HTML(" 
         .navbar-default .navbar-brand {color: white;}
         .navbar-default .navbar-brand:hover {color: white;}
-        .navbar { background-color: #399DFC ;}
-        .navbar-default .navbar-nav > li > a {color:black;}
+        .navbar { background-color: #7c1444 ;}
+        .navbar-default .navbar-nav > li > a {color:white;}
         .navbar-default .navbar-nav > .active > a,
         .navbar-default .navbar-nav > .active > a:focus,
-        .navbar-default .navbar-nav > .active > a:hover {color: white;background-color: #0184DE;}
-        .navbar-default .navbar-nav > li > a:hover {color: black;background-color:#33AEFE; text-decoration:underline;}
-                  ")),
+        .navbar-default .navbar-nav > .active > a:hover {color: white;background-color: #9c456c;}
+        .navbar-default .navbar-nav > li > a:hover {color: white ;background-color:#bc7c94; text-decoration:underline;}
+                  ")), # Ou active color #923860
                 
                 tabPanel("Accueil",
                          source("Accueil.R")$value),

@@ -21,7 +21,7 @@ fluidPage(
     column(12,
            wellPanel(
              h3("Objectif"),
-             source("Questions//question1.R")
+             source("Questions//Objectifs.R")
            )),
     
     column(12,
