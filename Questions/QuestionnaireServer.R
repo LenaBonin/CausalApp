@@ -8,6 +8,9 @@ observeEvent(input$block_prelim, {
   if (input$questionP == "Oui"){
     output$page <- render_page(f=Q1)
   }
+  else{ # If no DAG, display pop up 
+    shinyalert("No DAG", "This app assumed that you have already drown a DAG. If you need help with this step you can read ...", type = "error")
+  }
 })
 
 # If next, display "asking variable name if mediation is selected

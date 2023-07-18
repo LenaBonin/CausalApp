@@ -2,6 +2,7 @@
 
 library(shiny)
 library(shinyjs)
+library(shinyalert)
 
 source("Questionnaire.R")
 
@@ -9,9 +10,9 @@ source("Questionnaire.R")
 # Define UI for application that draws a histogram
 ui <- fluidPage(
   
+  useShinyalert(), #Set up shinyalert (for pop ups)
+  
   shinyUI(
-    
-    
     navbarPage( "Causal app",
                 # Setting for the nav bar (colors)
                 tags$style(HTML(" 
