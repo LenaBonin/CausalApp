@@ -1,4 +1,4 @@
-if(input$question2=="Oui"){
+#if(input$question2=="Oui"){
   div(class = 'container',
       textAreaInput(
         inputId = "Expo",
@@ -25,7 +25,11 @@ if(input$question2=="Oui"){
         width = '100%',
         height = '1000%',
         placeholder = "Le risque de cancer"
-      )
+      ),
+      br(),
+      actionButton("EndObj2Prev", "< Previous"),
+      actionButton("EndObj2Next", "Next >"),
+      br()
   )
       
-}
+#}

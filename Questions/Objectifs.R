@@ -1,4 +1,4 @@
-isolate(if(input$questionP=="Oui"){
+isolate(#if(render_page(f=Qprelim)$input$questionP=="Oui"){
 
 div(class = 'container',
         p("Votre objectif est-il du type:"),
@@ -8,8 +8,10 @@ div(class = 'container',
     
     radioButtons("question2", "Quel est le rôle du tabac comme variable intermédiaire entre la classe sociale et la mortalité ?", 
                  choices = c("Oui", "Non")),
-    actionButton("EndObj1", "Next"),
+    br(),
+    actionButton("EndObj1Prev", "< Previous"),
+    actionButton("EndObj1Next", "Next >"),
     br()
     )
-}
+#}
 )

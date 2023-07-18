@@ -1,8 +1,10 @@
 ## Server
+
+output$page <- render_page(f=Qprelim)
 observeEvent(input$block_prelim, {
-  output$Objectif1 <- renderUI({source("Questions//Objectifs.R", local = T)$value})
+  output$page <- render_page(f=Q1)
 })
 
 observeEvent(input$EndObj1, {
-  output$Objectif2 <- renderUI({source("Questions//Objectifs2.R", local = T)$value})
+  output$page <- render_page(f=Q2)
 })

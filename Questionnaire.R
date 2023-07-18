@@ -1,40 +1,26 @@
-fluidPage(
-  tags$head(tags$style(HTML("
-    .shiny-text-output {
-      background-color:#fff;
-    }
-  "))),
-  
-  fluidRow(column(6, offset = 3,
-                  h3("Question preliminaire"),
-                  radioButtons("questionP", "Avez-vous réalisé un graphe acyclique dirigé (DAG): ", 
-                               choices = c("Oui", "Non")),
-                  actionButton("block_prelim", "Valider"),
-                  br()
-                  )
-           ),
-  
-  br(),
-  
-  fluidRow(
-    
-    column(12,
-           wellPanel(
-             h3("Objectif"),
-             #source("Questions//Objectifs.R")$value
-             uiOutput("Objectif1"),
-             uiOutput("Objectif2")
-           )),
-    
-    column(12,
-           wellPanel(
-             h3("Variables")
-           )),
-    
-    column(12,
-           wellPanel(
-             h3("Contraintes")
-           ))
-  )
-)
+htmlOutput("page")
 
+Qprelim <- function(...) {
+  args <- list(...)
+  div(class = 'container',
+      p("Question préliminaire"),
+      radioButtons("questionP", "Avez-vous réalisé un DAG ", choices = c("Oui", "Non")),
+      br()
+  )
+}
+
+
+Q1 <- function(...) {
+  renderUI({ source("Questions//Objectifs.R", local = TRUE)$value })
+}
+
+Q2 <- function(...) {
+  renderUI({source("Questions//Objectifs2.R", local = T)$value})
+}
+
+render_page <- function(...,f, title = "test_app") {
+  page <- f(...)
+  renderUI({
+    fluidPage(page, title = title)
+  })
+}
