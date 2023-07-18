@@ -4,7 +4,7 @@ library(shiny)
 library(shinyjs)
 library(shinyalert)
 
-source("Questionnaire.R")
+source("Questions\\QuestionnaireQP_Obj_UI.R")
 
 
 # Define UI for application that draws a histogram
@@ -44,7 +44,7 @@ ui <- fluidPage(
 server <- function(input, output, session) {
   
   ## Display first block of objectif questions
-  source("Questions\\QuestionnaireServer.R", local = T)$value 
+  source("Questions\\QuestionnaireQP_Obj_Server.R", local = T)$value 
   
 }
 
