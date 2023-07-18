@@ -5,6 +5,7 @@ library(shinyjs)
 library(shinyalert)
 
 source("Questions\\QuestionnaireQP_Obj_UI.R")
+source("Questions\\QuestionnaireTotalEffect_Variables_UI.R")
 
 
 # Define UI for application that draws a histogram
@@ -45,6 +46,7 @@ server <- function(input, output, session) {
   
   ## Display first block of objectif questions
   source("Questions\\QuestionnaireQP_Obj_Server.R", local = T)$value 
+  source("Questions\\QuestionnaireTotalEffect_Variables_Server.R", local = T)$value 
   
 }
 

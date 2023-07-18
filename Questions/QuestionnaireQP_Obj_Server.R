@@ -16,6 +16,8 @@ observeEvent(input$block_prelim, {
 # If next, display "asking variable name if mediation is selected
 observeEvent(input$EndObj1Next, {
   if(input$question2=="Oui") output$page <- render_page(f=Q2)
+  else if(input$question1=="Oui" & input$question2=="Non") output$page <- render_page(f=MTot)
+  else if(input$question1=="Non" & input$question2=="Non")  shinyalert("Objectif non défini", "Il semble que votre question de recherche ne corresponde pas au cadre d'application de cette application", type = "error")
 })
 
 # If previous, display Dag question again
@@ -26,4 +28,9 @@ observeEvent(input$EndObj1Prev, {
 # If previous on page Q2, display Q1 again
 observeEvent(input$EndObj2Prev, {
   output$page <- render_page(f=Q1)
+})
+
+# If Total effect selected and not mediation
+observeEvent(input$EndObj1Next, {
+  
 })
