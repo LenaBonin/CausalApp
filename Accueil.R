@@ -9,7 +9,7 @@ fluidRow(
 <br>
 
 <font size = +1> <strong>
-More info about the app can be found on <a href = https://github.com/LenaBonin73/PodIdentApp> https://github.com/LenaBonin/PodIdentApp </a> </strong> </font> <br>
+More info about the app can be found on <a href = https://github.com/LenaBonin/CausalApp> https://github.com/LenaBonin/CausalApp </a> </strong> </font> <br>
 <br>")
   )
   
