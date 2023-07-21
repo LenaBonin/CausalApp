@@ -8,7 +8,7 @@ div(class = 'container',
                  choices = c("Oui", "Non")),
     
     br(),
-    actionButton("Var_Tot_Prev", "< Previous"),
-    actionButton("Var_Tot_Next", "Next >"),
+    actionButton("Confu_Tot_Prev", "< Previous"),
+    actionButton("Confu_Tot_Next", "Next >"),
     br()
 )

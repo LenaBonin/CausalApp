@@ -18,3 +18,11 @@ VarTot <- function(...) {
 ConfusionTot <- function(...) {
   renderUI({ source("Questions\\TotalEffect\\Confusion_TotalEffect.R", local = TRUE)$value })
 }
+
+VerifDagTot <- function(...) {
+  renderUI({ source("Questions\\TotalEffect\\VerifDAG_TotalEffect.R", local = TRUE)$value })
+}
+
+RepeteTot <- function(...) {
+  renderUI({ source("Questions\\TotalEffect\\Repetition_temp_TotalEffect.R", local = TRUE)$value })
+}
