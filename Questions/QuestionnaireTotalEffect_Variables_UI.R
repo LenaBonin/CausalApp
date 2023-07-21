@@ -12,5 +12,9 @@ MTot <- function(...) {
 }
 
 VarTot <- function(...) {
-  renderUI({ source("Questions\\Variables\\Variables_TotalEffect.R", local = TRUE)$value })
+  renderUI({ source("Questions\\TotalEffect\\Variables_TotalEffect.R", local = TRUE)$value })
+}
+
+ConfusionTot <- function(...) {
+  renderUI({ source("Questions\\TotalEffect\\Confusion_TotalEffect.R", local = TRUE)$value })
 }
