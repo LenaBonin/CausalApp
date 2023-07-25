@@ -85,10 +85,16 @@ observeEvent(input$Repet_Tot_Prev, {
   currentPage(VerifDagTot)
 })
 
+# Bouton Next après Q sur les variables répétées
 observeEvent(input$Repet_Tot_Next, {
   values$ExpRepTot <- input$ExpRepTot
   values$ConfRepTot <- input$ConfRepTot
   currentPage(PosiTot)
+})
+
+# Bouton Prev après question sur la positivité
+observeEvent(input$Posi_Tot_Prev, {
+  currentPage(RepeteTot)
 })
 
 }

@@ -15,6 +15,8 @@ Qprelim <- function() {
 # # If mediation, name of variables
  Q2 <- "Questions\\Objectifs\\Objectifs2"
  
+ MedA <- "Questions\\Objectifs\\Objectifs_mediation_A"
+ 
 
 
 # Function for displaying pages

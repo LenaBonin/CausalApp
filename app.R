@@ -11,7 +11,7 @@ source("Questions\\QuestionnaireTotalEffect_Variables_UI.R")
 
 ui <- fluidPage(
   
-  useShinyalert(), #Set up shinyalert (for pop ups)
+  #useShinyalert(), #Set up shinyalert (for pop ups)
   
   shinyUI(
     navbarPage( "Causal app",
@@ -51,7 +51,11 @@ server <- function(input, output, session) {
                            ConfuTot = NULL, ConfuNonMesureTot = NULL,
                            MedExpOutTot = NULL, CollidExpOutTot = NULL,
                            ExpRepTot = NULL, ConfRepTot = NULL,
-                           QPosiTot = NULL)
+                           QPosiTot = NULL,
+                           
+                           ##Médiation
+                           Expo = "", Mediateur = "", Outcome="", 
+                           )
   
   output$page <- renderUI({
     current_page <- currentPage()

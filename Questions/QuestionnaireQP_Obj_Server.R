@@ -37,4 +37,17 @@ observeEvent(input$EndObj2Prev, {
   currentPage(Q1)
 })
 
+# Button Next à la fin de Q2
+observeEvent(input$EndObj2Next, {
+  values$Expo <- input$Expo
+  values$Mediateur <- input$Mediateur
+  values$Outcome <- input$Outcome
+  currentPage(MedA)
+})
+
+# Button Prev after mediation A questions
+observeEvent(input$MedA_Prev, {
+  currentPage(Q2)
+})
+
 }
