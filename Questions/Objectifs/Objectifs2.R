@@ -1,4 +1,4 @@
-#if(input$question2=="Oui"){
+function(values){
   div(class = 'container',
       textAreaInput(
         inputId = "Expo",
@@ -32,4 +32,4 @@
       br()
   )
       
-#}
+}

@@ -1,4 +1,3 @@
-# https://github.com/daattali/advanced-shiny/tree/master/multiple-pages
 
 library(shiny)
 library(shinyjs)
@@ -10,7 +9,6 @@ source("Questions\\QuestionnaireTotalEffect_Variables_UI.R")
 
 
 
-# Define UI for application that draws a histogram
 ui <- fluidPage(
   
   useShinyalert(), #Set up shinyalert (for pop ups)
@@ -33,7 +31,7 @@ ui <- fluidPage(
                 tabPanel("Accueil",
                          source("Accueil.R")$value),
                 tabPanel("Questionnaire",
-                         htmlOutput("page")),
+                         uiOutput("page")),
                 tabPanel("Ressources", source('Ressources.R')$value),
                 selected = "Accueil"
     )
@@ -46,11 +44,33 @@ ui <- fluidPage(
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
   
+  currentPage <- reactiveVal("Qprelim")
+  
+  values <- reactiveValues(question1 = NULL, question2 = NULL,
+                           TypExpTot = NULL, TypOutcomeTot = NULL,
+                           ConfuTot = NULL, ConfuNonMesureTot = NULL,
+                           MedExpOutTot = NULL, CollidExpOutTot = NULL,
+                           ExpRepTot = NULL, ConfRepTot = NULL,
+                           QPosiTot = NULL)
+  
+  output$page <- renderUI({
+    current_page <- currentPage()
+    if (current_page == "Qprelim") {
+      Qprelim()
+    } else {
+      render_page(paste0(current_page, ".R"), values = values)
+    }
+  })
+  
   ## Display first block of objectif questions
-  source("Questions\\QuestionnaireQP_Obj_Server.R", local = T)$value 
+  source("Questions\\QuestionnaireQP_Obj_Server.R", local = T)
+  observe_events_Objectifs(input, output, session, currentPage, values)
   source("Questions\\QuestionnaireTotalEffect_Variables_Server.R", local = T)$value 
+  observe_events_Variables_TotalEffect(input, output, session, currentPage, values)
+  
   
 }
 
 # Run the application 
 shinyApp(ui = ui, server = server)
+

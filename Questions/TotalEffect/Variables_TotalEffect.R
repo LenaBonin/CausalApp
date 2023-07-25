@@ -1,8 +1,9 @@
-isolate(
+function(values){
   
   div(class = 'container',
       radioButtons("TypExpTot", "Quelle est la nature de votre variable d'exposition ? ", 
-                   choices = c("J'en ai plusieurs", "Quantitative", "Binaire", "Ordinale", "Nominale")),
+                   choices = c("J'en ai plusieurs", "Quantitative", "Binaire", "Ordinale", "Nominale"), 
+                   selected = values$TypExpTot),
       br(),
       textAreaInput(
         inputId = "ExpoTot",
@@ -15,7 +16,8 @@ isolate(
       
       br(), 
       radioButtons("TypOutcomeTot", "Quelle est la nature de votre outcome ?", 
-                   choices = c("J'en ai plusieurs", "Quantitative", "Binaire", "Ordinale", "Nominale", "Survie / Time-to-event")),
+                   choices = c("J'en ai plusieurs", "Quantitative", "Binaire", "Ordinale", "Nominale", "Survie / Time-to-event"),
+                   selected = values$TypOutcomeTot),
       br(),
       textAreaInput(
         inputId = "OutTot",
@@ -31,4 +33,4 @@ isolate(
       br()
   )
   
-)
+}

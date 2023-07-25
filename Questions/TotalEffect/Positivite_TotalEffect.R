@@ -1,0 +1,16 @@
+# Question pour voir s'il y a un risque évident que l'hypothèse de positivité ne soit pas vérifiée
+
+function(values){ 
+  div(class = 'container',
+      radioButtons("QPosiTot","Suspectez-vous que certaines combinaisons des facteurs de confusions correspondent uniquement à des individus exposés/non-exposés,
+                   i.e Y a-t-il des individus qui ne peuvent pas être exposés/non-exposés de part leurs caractéristiques ?",
+                   choices = c("Oui", "Non"),
+                   selected = values$QPosiTot),
+      
+      br(),
+      
+      actionButton("Posi_Tot_Prev", "< Previous"),
+      actionButton("Posi_Tot_Next", "Next >"),
+      br()
+  )
+}

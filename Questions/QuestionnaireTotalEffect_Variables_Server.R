@@ -1,19 +1,19 @@
 ### Ce fichier contient les élément de la fonction serveur qui concernent les questions pour estimer un effet total ###
 
-
+observe_events_Variables_TotalEffect <- function (input, output, session, currentPage, values){
 # Bouton Prev après les Q sur le message que lon rentre dans les effets totaux
 observeEvent(input$Mtot_Prev, {
-  output$page <- render_page(f=Q1)
+  currentPage(Q1)
 })
 
 # Bouton Next après les Q sur le message que lon rentre dans les effets totaux
 observeEvent(input$Mtot_Next, {
-  output$page <- render_page(f=VarTot)
+  currentPage(VarTot)
 })
 
 # Bouton Prev après les Q sur les variables
 observeEvent(input$Var_Tot_Prev, {
-  output$page <- render_page(f=MTot)
+  currentPage(MTot)
 })
 
 # Bouton Next après les Q sur les variables
@@ -23,7 +23,11 @@ observeEvent(input$Var_Tot_Next, {
   }
   else if(input$TypExpTot == "J'en ai plusieurs") shinyalert("Exposition multiple", "Vous ne pouvez avoir qu'une seule exposition. Considérez de faire une analyse par exposition. Ou, si les expositions sont séquentielles, alors vous êtes dans le cas d'une variable intermédiaire. Dans ce cas, retournez au choix de l'objectif et modifiez votre réponse")
   else if (input$TypOutcomeTot == "J'en ai plusieurs") shinyalert("Outcome multiple", "Vous ne pouvez avoir qu'un seul outcome. Considérez de faire une analyse par outcome")
-  else output$page <- render_page(f=ConfusionTot)
+  else {
+    values$TypExpTot <- input$TypExpTot
+    values$TypOutcomeTot <- input$TypOutcomeTot
+    currentPage(ConfusionTot)
+  } 
 })
 
 # Texte pour faire penser aux facteurs de confusion
@@ -34,13 +38,17 @@ output$QconfusionExpOut <- renderText({
 
 # Bouton Prev après Q sur les facteurs de confusion
 observeEvent(input$Confu_Tot_Prev, {
-  output$page <- render_page(f=VarTot)
+  currentPage(VarTot)
 })
 
 # Bouton Next après Q sur les facteurs de confusion
 observeEvent(input$Confu_Tot_Next, {
   if(input$ConfuTot == "Non") shinyalert("Facteurs de confusion manquant", "Rajoutez tous les facteurs de confusion sur votre DAG avant de poursuivre")
-  else output$page <- render_page(f=VerifDagTot)
+  else {
+    values$ConfuTot <- input$ConfuTot
+    values$ConfuNonMesureTot <- input$ConfuNonMesureTot
+    currentPage(VerifDagTot)
+  }
 })
 
 
@@ -57,15 +65,30 @@ output$QCollidExpOut <- renderText({
 
 # Bouton Prev après Q sur les médiateurs et colliders
 observeEvent(input$Verif_Tot_Prev, {
-  output$page <- render_page(f=ConfusionTot)
+  currentPage(ConfusionTot)
 })
 
 # Bouton Next après Q sur les médiateurs et colliders
 observeEvent(input$Verif_Tot_Next, {
-  output$page <- render_page(f=RepeteTot)
+  if (input$MedExpOutTot=="Oui" & input$CollidExpOutTot=="Oui") shinyalert("Supprimez les médiateurs et les colliders", "Les colliders ne doivent pas être inclus dans le DAG. De plus, pour estimer un effet total il n'est pas nécessaire de faire apparaître des médiateurs.\n  Vous ne devez pas inclure ces deux types de variables dans votre analyse car elles biaseraient les résultats.")
+  else if(input$MedExpOutTot=="Oui") shinyalert("Supprimez les médiateurs", "Pour un effet total il n'est pas nécessaire de faire apparaître des médiateurs sur votre DAG. Vous ne devez pas les inclure dans votre analyse car ils biaseraient les résultats.")
+  else if (input$CollidExpOutTot=="Oui") shinyalert("Supprimez les colliders", "Les colliders ne doivent pas être inclus dans le DAG. Vous ne devez pas les inclure dans votre analyse car ils biaseraient les résultats.")
+  else{
+    values$MedExpOutTot <- input$MedExpOutTot
+    values$CollidExpOutTot <- input$CollidExpOutTot
+    currentPage(RepeteTot)
+  }
 })
 
 # Bouton Prev après Q sur les variables répétées
 observeEvent(input$Repet_Tot_Prev, {
-  output$page <- render_page(f=VerifDagTot)
+  currentPage(VerifDagTot)
 })
+
+observeEvent(input$Repet_Tot_Next, {
+  values$ExpRepTot <- input$ExpRepTot
+  values$ConfRepTot <- input$ConfRepTot
+  currentPage(PosiTot)
+})
+
+}
