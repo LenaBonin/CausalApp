@@ -1,7 +1,7 @@
 # Avez-vous un DAG
 Qprelim <- function() {
   div(class = 'container',
-      p("Question préliminaire"),
+      h3("Question préliminaire"),
       radioButtons("questionP", "Avez-vous réalisé un DAG ", choices = c("Oui", "Non"), selected = "Oui"),
       actionButton("block_prelim", "Next >"),
       br()
@@ -15,7 +15,11 @@ Qprelim <- function() {
 # # If mediation, name of variables
  Q2 <- "Questions\\Objectifs\\Objectifs2"
  
+ # Objectif du type intervenir sur le médiateur pour mitiger l'effet ?
  MedA <- "Questions\\Objectifs\\Objectifs_mediation_A"
+ 
+ # Objectif du type comprendre le mécanisme en décomposant l'effet total
+ MedB <- "Questions\\Objectifs\\Objectifs_mediation_B"
  
 
 

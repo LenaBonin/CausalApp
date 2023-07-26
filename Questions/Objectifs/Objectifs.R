@@ -1,6 +1,6 @@
 function(values){
 div(class = 'container',
-        p("Votre objectif est-il du type:"),
+        h3("Votre objectif est-il du type:"),
         radioButtons("question1", "Quelle est l'effet de la classe sociale sur la mortalité ? ",
                      choices = c("Oui", "Non"),
                      selected = values$question1),

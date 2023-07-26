@@ -55,6 +55,8 @@ server <- function(input, output, session) {
                            
                            ##Médiation
                            Expo = "", Mediateur = "", Outcome="", 
+                           ObjMedA1 = NULL, ObjMedA2 = NULL, ObjMedA3 = NULL,
+                           ObjMedB1 = NULL, ObjMedB2 = NULL, ObjMedB3 = NULL, ObjMedB4 = NULL
                            )
   
   output$page <- renderUI({
