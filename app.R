@@ -3,9 +3,9 @@ library(shiny)
 library(shinyjs)
 library(shinyalert)
 
-source("Questions\\QuestionnaireQP_Obj_UI.R")
-source("Questions\\QuestionnaireTotalEffect_Variables_UI.R")
-
+source("Questions\\Questionnaire_Obj_UI.R")
+source("Questions\\Questionnaire_TotalEffect_UI.R")
+source("Questions\\Questionnaire_Mediation_UI.R")
 
 
 
@@ -69,11 +69,12 @@ server <- function(input, output, session) {
   })
   
   ## Display first block of objectif questions
-  source("Questions\\QuestionnaireQP_Obj_Server.R", local = T)
+  source("Questions\\Questionnaire_Obj_Server.R", local = T)
   observe_events_Objectifs(input, output, session, currentPage, values)
-  source("Questions\\QuestionnaireTotalEffect_Variables_Server.R", local = T)$value 
-  observe_events_Variables_TotalEffect(input, output, session, currentPage, values)
-  
+  source("Questions\\Questionnaire_TotalEffect_Server.R", local = T)$value 
+  observe_events_TotalEffect(input, output, session, currentPage, values)
+  source("Questions\\Questionnaire_Mediation_Server.R", local = T)$value 
+  observe_events_Mediation(input, output, session, currentPage, values)
   
 }
 

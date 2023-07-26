@@ -63,6 +63,15 @@ observeEvent(input$MedB_Prev, {
   currentPage(MedA)
 })
 
+# Button Next after mediation B questions
+observeEvent(input$MedB_Next, {
+  values$ObjMedB1 <- input$ObjMedB1
+  values$ObjMedB2 <- input$ObjMedB2
+  values$ObjMedB3 <- input$ObjMedB3
+  values$ObjMedB4 <- input$ObjMedB4
+  currentPage(TypVarMed)
+})
+
 # Expo <- reactive({ifelse(input$Expo=="", "l'exposition", input$Expo)})
 # Mediateur <- reactive({ifelse(input$Mediateur=="", "le facteur intermédiaire", input$Mediateur)})
 # Outcome <- reactive({ifelse(input$Outcome=="", "l'outcome", input$Outcome)})
@@ -116,6 +125,7 @@ output$QMedB4 <- renderText({
         "est due à l'effet de ", ifelse(input$Expo=="", "l'exposition", input$Expo), "sur",
         ifelse(input$Mediateur=="", "le facteur intermédiaire", input$Mediateur), "? </b")
 })
+
 
 
 }

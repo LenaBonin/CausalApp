@@ -1,0 +1,1 @@
+TypVarMed <- "Questions\\Mediation\\Variables_Mediation"
