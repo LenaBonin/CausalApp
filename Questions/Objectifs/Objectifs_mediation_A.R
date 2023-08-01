@@ -1,6 +1,6 @@
 function(values){
   div(class = 'container',
-      h3("Votre objectif est-il du type:"),
+      h3("Plus précisément, votre objectif est-il du type:"),
       radioButtons("questionMedA1", HTML(paste("<strong>Intervenir sur la variable intermédiaire </strong>", values$Mediateur, "pour mitiger/renforcer l'effet de l'exposition", values$Expo,
                                           "sur l'outcome", values$Outcome)),
                    choices = c("Oui", "Non"),
