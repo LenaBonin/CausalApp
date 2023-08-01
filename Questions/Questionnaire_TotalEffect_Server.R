@@ -54,12 +54,12 @@ observeEvent(input$Confu_Tot_Next, {
 
 # Texte pour faire penser aux médiateurs
 output$QMedExpOut <- renderText({
-  paste("<b> Votre graphe contient-il des variables qui sont influencé par ", ifelse(input$ExpoTot=="", "l'exposition", input$ExpoTot), "et influence eux-même", ifelse(input$OutTot=="", "l'outcome", input$OutTot),"</b>,
+  paste("<b> Votre graphe contient-il des variables qui sont influencées par ", ifelse(input$ExpoTot=="", "l'exposition", input$ExpoTot), "et influencent elles-mêmes", ifelse(input$OutTot=="", "l'outcome", input$OutTot),"</b>,
         i.e. contient-il des médiateurs")}) 
 
 # Texte pour faire penser aux colliders
 output$QCollidExpOut <- renderText({
-  paste("<b> Votre graphe contient-il des variables qui sont influencé à la fois par ", ifelse(input$ExpoTot=="", "l'exposition", input$ExpoTot), "et par", ifelse(input$OutTot=="", "l'outcome", input$OutTot),"</b>,
+  paste("<b> Votre graphe contient-il des variables qui sont influencées à la fois par ", ifelse(input$ExpoTot=="", "l'exposition", input$ExpoTot), "et par", ifelse(input$OutTot=="", "l'outcome", input$OutTot),"</b>,
         i.e. contient-il des colliders")})
 
 

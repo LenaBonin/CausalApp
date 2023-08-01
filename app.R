@@ -12,6 +12,18 @@ source("Questions\\Questionnaire_Mediation_UI.R")
 ui <- fluidPage(
   
   #useShinyalert(), #Set up shinyalert (for pop ups)
+  tags$head(
+    tags$style(HTML("
+      .additional-question {
+        margin-left: 50px; /* Ajoutez la valeur de décalage souhaitée ici */
+      }
+    ")),
+    tags$style(HTML("
+      .additional-question-2 {
+        margin-left: 100px; /* Ajoutez la valeur de décalage souhaitée ici */
+      }
+    "))
+  ),
   
   shinyUI(
     navbarPage( "Causal app",
@@ -47,6 +59,8 @@ server <- function(input, output, session) {
   currentPage <- reactiveVal("Qprelim")
   
   values <- reactiveValues(question1 = NULL, question2 = NULL,
+                           
+                           # Effet total
                            TypExpTot = NULL, TypOutcomeTot = NULL,
                            ConfuTot = NULL, ConfuNonMesureTot = NULL,
                            MedExpOutTot = NULL, CollidExpOutTot = NULL,
@@ -56,8 +70,27 @@ server <- function(input, output, session) {
                            ##Médiation
                            Expo = "", Mediateur = "", Outcome="", 
                            ObjMedA1 = NULL, ObjMedA2 = NULL, ObjMedA3 = NULL,
-                           ObjMedB1 = NULL, ObjMedB2 = NULL, ObjMedB3 = NULL, ObjMedB4 = NULL
+                           ObjMedB1 = NULL, ObjMedB2 = NULL, ObjMedB3 = NULL, ObjMedB4 = NULL,
+                           TypExpMed = NULL, TypMediateurMed = NULL, TypOutcomeMed = NULL, EffetTotVerif = NULL,
+                           ExpRepMed = NULL, MediateurRepMed = NULL, OutRepMed = NULL,
+                           ConfuExpOutMed = NULL, ConfuExpMedMed = NULL, ConfuMedOutMed = NULL, ConfuNonMesureMed = NULL, ConfuInfluence = NULL, 
+                           ShortTime = NULL, add_hyp_cond = NULL,
+                           CollidExpOutMediation = NULL, CollidMedOut = NULL,
+                           InterractionExpMed = NULL, InterractionDirIndir = NULL
                            )
+  
+  # Estimands <- reactiveValues(TotalEffect = !is.null(values$question1) & values$question1=="Oui",
+  #                             CDE = !is.null(values$question2) & (!is.null(values$ObjMedA1) | !is.null(values$ObjMedA2))&
+  #                               values$question2=="Oui" & (values$ObjMedA1 == "Oui" | values$ObjMedA2=="Oui"),
+  #                             
+  #                             PropEliminated = !is.null(values$question2) & !is.null(values$ObjMedA3) & values$question2=="Oui" & values$ObjMedA3=="Oui",
+  #                             
+  #                             NDE = !is.null(values$question2) & (!is.null(values$ObjMedB1) | !is.null(values$ObjMedB3))&
+  #                               values$question2=="Oui" & (values$ObjMedB1 == "Oui" | values$ObjMedB3=="Oui"),
+  #                             
+  #                             NIE = !is.null(values$question2) & !is.null(values$ObjMedB2) & values$question2=="Oui" & values$ObjMedB2=="Oui",
+  #                             
+  #                             PropMediated = !is.null(values$question2) & !is.null(values$ObjMedB4) & values$question2=="Oui" & values$ObjMedB4=="Oui")
   
   output$page <- renderUI({
     current_page <- currentPage()
@@ -80,4 +113,3 @@ server <- function(input, output, session) {
 
 # Run the application 
 shinyApp(ui = ui, server = server)
-

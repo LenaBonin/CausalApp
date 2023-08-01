@@ -1,1 +1,5 @@
 TypVarMed <- "Questions\\Mediation\\Variables_Mediation"
+RepeteMed <- "Questions\\Mediation\\Repetition_temp_Mediation"
+ConfuMed <- "Questions\\Mediation\\Confusion_Mediation"
+CollidMed <- "Questions\\Mediation\\Verif_Colliders_Mediation"
+InterractionMed <- "Questions\\Mediation\\Interraction_Mediation"

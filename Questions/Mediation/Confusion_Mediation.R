@@ -1,0 +1,60 @@
+function(values){div(class = 'container',
+                     htmlOutput("QconfusionExpOutMed"),
+                     radioButtons("ConfuExpOutMed","Apparraissent-ils tous sur votre DAG ?",
+                                  choices = c("Oui", "Non"),
+                                  selected = values$ConfuExpOutMed),
+                     
+                     br(),
+                     
+                     htmlOutput("QconfusionExpMedMed"),
+                     radioButtons("ConfuExpMedMed","Apparraissent-ils tous sur votre DAG ?",
+                                  choices = c("Oui", "Non"),
+                                  selected = values$ConfuExpMedMed),
+                     
+                     br(),
+                     
+                     htmlOutput("QconfusionMedOutMed"),
+                     radioButtons("ConfuMedOutMed","Apparraissent-ils tous sur votre DAG ?",
+                                  choices = c("Oui", "Non"),
+                                  selected = values$ConfuMedOutMed),
+                     
+                     br(),
+                     
+                     radioButtons("ConfuNonMesureMed","Certains de ces facteurs sont-ils non mesurés dans vos données ?",
+                                  choices = c("Oui", "Non"),
+                                  selected = values$ConfuNonMesureMed),
+                     
+                     br(),
+                     htmlOutput("ConfuInfluence"),
+                     radioButtons("ConfuInfluence","",
+                                  choices = c("Oui", "Non"),
+                                  selected = ifelse(is.null(values$ConfuInfluence), "Non", values$ConfuInfluence)),
+                     
+                     conditionalPanel(
+                       condition = "input.ConfuInfluence == 'Oui'",
+                       div(
+                         class = "additional-question",
+                         radioButtons("ShortTime", "Le temps entre l'observation de l'exposition et celle du médiateur est-il très court?",
+                                    choices = c("Oui", "Non"),
+                                    selected = values$ShortTime)
+                       )
+                     ),
+                     
+                     conditionalPanel(
+                       condition = "input.ShortTime == 'Non'",
+                       div(
+                         class = "additional-question-2",
+                         radioButtons("add_hyp_cond", "L'hypothèse suivante vous parait-elle crédible ? \n
+                                      Conditionnellement à (i.e. après ajustement sur) l'exposition, le médiateur et le facteur de confusion intermédiaire, il n'y a pas de facteur de confusion non mesuré de la relation médiateur-outcome",
+                                      choices = c("Oui", "Non"),
+                                      selected = values$add_hyp_cond)
+                       )
+                     ),
+                     
+                     
+                     br(),
+                     actionButton("Confu_Med_Prev", "< Previous"),
+                     actionButton("Confu_Med_Next", "Next >"),
+                     br()
+)
+}

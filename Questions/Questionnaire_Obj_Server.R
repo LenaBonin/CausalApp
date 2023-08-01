@@ -69,7 +69,15 @@ observeEvent(input$MedB_Next, {
   values$ObjMedB2 <- input$ObjMedB2
   values$ObjMedB3 <- input$ObjMedB3
   values$ObjMedB4 <- input$ObjMedB4
-  currentPage(TypVarMed)
+  if(values$ObjMedA1=="Non" & values$ObjMedA2=="Non" & values$ObjMedA3=="Non" & values$ObjMedB1=="Non" & values$ObjMedB2=="Non" & values$ObjMedB3=="Non" & values$ObjMedB4=="Non"){
+    shinyalert("Objectif non défini", "Il semble que votre question de recherche de corresponde pas à une analyse de médiation. Assurez-vous qu'aucun des objectifs proposés ne se rapproche du votre. \n
+               Sinon, peut-être votre facteur intermédiaire n'est-il pas d'intérêt, dans ce cas considérer seulement une analyse d'effet causal.")
+    
+    currentPage(Q1)
+  }
+  else{
+    currentPage(TypVarMed)
+  }
 })
 
 # Expo <- reactive({ifelse(input$Expo=="", "l'exposition", input$Expo)})
@@ -102,14 +110,16 @@ output$QMedA3 <- renderText({
 # Texte questions mediation B
 output$QMedB1 <- renderText({
   paste("<b> Quel est l’effet de ",  ifelse(input$Expo=="", "l'exposition", input$Expo),
+        "sur", ifelse(input$Outcome=="", "l'outcome", input$Outcome),
         "qui passe par ", ifelse(input$Mediateur=="", "le facteur intermédiaire", input$Mediateur),
-        "sur", ifelse(input$Outcome=="", "l'outcome", input$Outcome), "? </b")
+         "? </b")
 })
 
 output$QMedB2 <- renderText({
   paste("<b> Quel est l’effet de ",  ifelse(input$Expo=="", "l'exposition", input$Expo),
+        "sur", ifelse(input$Outcome=="", "l'outcome", input$Outcome), 
         "qui ne passe pas par ", ifelse(input$Mediateur=="", "le facteur intermédiaire", input$Mediateur),
-        "sur", ifelse(input$Outcome=="", "l'outcome", input$Outcome), "? </b")
+        "? </b")
 })
 
 output$QMedB3 <- renderText({
