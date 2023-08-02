@@ -17,8 +17,7 @@ ui <- fluidPage(
       .additional-question {
         margin-left: 50px; /* Ajoutez la valeur de décalage souhaitée ici */
       }
-    ")),
-    tags$style(HTML("
+      
       .additional-question-2 {
         margin-left: 100px; /* Ajoutez la valeur de décalage souhaitée ici */
       }
@@ -64,7 +63,7 @@ server <- function(input, output, session) {
                            TypExpTot = NULL, TypOutcomeTot = NULL,
                            ConfuTot = NULL, ConfuNonMesureTot = NULL,
                            MedExpOutTot = NULL, CollidExpOutTot = NULL,
-                           ExpRepTot = NULL, ConfRepTot = NULL,
+                           ExpRepTot = NULL, ConfRepTot = NULL, OutRepTot = NULL,
                            QPosiTot = NULL,
                            
                            ##Médiation

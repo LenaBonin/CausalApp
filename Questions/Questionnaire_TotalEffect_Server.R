@@ -89,12 +89,42 @@ observeEvent(input$Repet_Tot_Prev, {
 observeEvent(input$Repet_Tot_Next, {
   values$ExpRepTot <- input$ExpRepTot
   values$ConfRepTot <- input$ConfRepTot
+  values$OutRepTot <- input$OutRepTot
   currentPage(PosiTot)
 })
 
 # Bouton Prev après question sur la positivité
 observeEvent(input$Posi_Tot_Prev, {
   currentPage(RepeteTot)
+})
+
+# Bouton Next après question sur la positivité
+observeEvent(input$Posi_Tot_Next, {
+  values$QPosiTot <- input$QPosiTot
+  currentPage(ResumeTot)
+})
+
+
+# Tableau résumé du type des variables exposition et outcome
+output$VariableTypeTot <- renderTable({
+    data.frame("Variable" = c("Exposition", "Outcome"),
+               "Type" = c(values$TypExpTot, values$TypOutcomeTot))
+})
+
+output$ObjectifResumeTot <- renderText({
+  paste("Etudier l'effet de", ifelse(input$ExpoTot=="", "l'exposition", input$ExpoTot), "sur", ifelse(input$OutTot=="", "l'outcome", input$OutTot))
+})
+
+output$ContraintesTot <- renderTable({
+  ExpRepet <- ifelse(input$ExpRepTot=="Oui", "Répétée", "Non répétée")
+  OutRepet <- ifelse(input$OutRepTot=="Oui", "Répété", "Non répété")
+  data.frame("Critère" = c("Exposition", "Outcome", "Facteurs de confusion non mesurés", "Problème de positivité"),
+             "Réponse" = c(ExpRepet, OutRepet, input$ConfuNonMesureTot, input$QPosiTot))
+})
+
+# Bouton Prev après le résumé
+observeEvent(input$Resume_Tot_Prev, {
+  currentPage(PosiTot)
 })
 
 }

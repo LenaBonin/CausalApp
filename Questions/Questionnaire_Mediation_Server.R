@@ -101,6 +101,17 @@ observe_events_Mediation <- function(input, output, session, currentPage, values
     currentPage(CollidMed)
   })
   
+  #Button Next après questions sur l'interraction
+  observeEvent(input$Interraction_Med_Next, {
+    values$InterractionExpMed <- input$InterractionExpMed
+    values$InterractionDirIndir <- input$InterractionDirIndir
+    currentPage(ResumeMed)
+  })
+  
+  #Button Prev après résumé des réponses
+  observeEvent(input$Resume_Med_Prev, {
+    currentPage(InterractionMed)
+  })
   
   ### Texte questions confusion ###
 
@@ -134,5 +145,49 @@ observe_events_Mediation <- function(input, output, session, currentPage, values
   output$QInterractionExpMed <- renderText({
     paste("<b> Souhaitez-vous isoler l'éventuelle interraction entre ", ifelse(input$Expo=="", "l'exposition", input$Expo), "et par", ifelse(input$Mediateur=="", "le facteur intermédiaire", input$Mediateur),"</b>,
         i.e. s'il y a une interraction entre l'exposition et le médiateur, souhaitez-vous la faire ressortir dans un terme à part ?")})
+  
+  ###### Partie résumé des réponses #####
+  output$VariableTypeMed <- renderTable({
+    data.frame("Variable" = c("Exposition", "Médiateur", "Outcome"),
+               "Type" = c(input$TypExpMed, input$TypMediateurMed, input$TypOutcomeMed))
+  })
+  
+  # Contraintes sur les variables
+  output$ContraintesMed <- renderTable({
+    ExpRepet <- ifelse(input$ExpRepMed=="Oui", "Répétée", "Non répétée")
+    MedRepet <- ifelse(input$MediateurRepMed=="Oui", "Répété", "Non répété")
+    OutRepet <- ifelse(input$OutRepMed=="Oui", "Répété", "Non répété")
+    data.frame("Critère" = c("Exposition", "Médiateur", "Outcome"),
+               "Réponse" = c(ExpRepet, MedRepet, OutRepet))
+  })
+  
+  # Contraintes sur les facteurs de confusion
+  output$ContraintesMed2 <- renderTable({
+    noms <- c("Facteurs de confusion non mesurés",
+              "Facteur de confusion de la relation médiateur/outcome influencé par l'exposition")
+    reponses <- c(input$ConfuNonMesureMed, input$ConfuInfluence)
+    if(input$ConfuInfluence=="Oui"){
+      noms <- c(noms, "Peu de temps entre observation de l'exposition et du médiateur")
+      reponses <- c(reponses, input$ShortTime)
+      if(input$ShortTime=="Non"){
+        noms <- c(noms, "Après ajustement, pas de confusion non mesurée de la relation médiateur/outcome")
+        reponses <- c(reponses, input$add_hyp_cond)
+      }
+    }
+    data.frame("Critère" = noms,
+               "Réponse" = reponses)
+  })
+  
+  # Terme d'interaction
+  output$InteractionMed <- renderTable({
+    noms <- "Terme d'interaction isolé"
+    reponses <- input$InterractionExpMed
+    if(input$InterractionExpMed=="Non"){
+      noms <- c(noms, "Interaction inclus dans")
+      reponses <- c(reponses, paste("Effet", input$InterractionDirIndir))
+    }
+    data.frame("." = noms,
+               "Réponse" = reponses)
+  })
   
 }

@@ -11,3 +11,5 @@ VerifDagTot <- "Questions\\TotalEffect\\VerifDAG_TotalEffect"
 RepeteTot <- "Questions\\TotalEffect\\Repetition_temp_TotalEffect"
 
 PosiTot <- "Questions\\TotalEffect\\Positivite_TotalEffect"
+
+ResumeTot <- "Resume_reponses\\Resume_TotalEffect"
