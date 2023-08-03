@@ -11,6 +11,7 @@ source("Questions\\Questionnaire_Mediation_UI.R")
 
 ui <- fluidPage(
   
+  useShinyjs(),
   #useShinyalert(), #Set up shinyalert (for pop ups)
   tags$head(
     tags$style(HTML("
@@ -21,9 +22,10 @@ ui <- fluidPage(
       .additional-question-2 {
         margin-left: 100px; /* Ajoutez la valeur de décalage souhaitée ici */
       }
-    "))
+    ")),
+    
   ),
-  
+
   shinyUI(
     navbarPage( "Causal app",
                 # Setting for the nav bar (colors)

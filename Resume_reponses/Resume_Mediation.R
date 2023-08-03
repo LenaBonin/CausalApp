@@ -4,7 +4,7 @@ function(values){
     column(12,
            wellPanel(
              h4("Objectif"),
-             textOutput("ObjectifResumeMed")
+             htmlOutput("ObjectifResumeMed")
            )),
     
     column(12,
