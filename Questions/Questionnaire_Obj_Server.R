@@ -126,7 +126,9 @@ output$QMedB3 <- renderText({
   paste("<b> Quel serait l’effet de ",  ifelse(input$Expo=="", "l'exposition", input$Expo),
         "sur", ifelse(input$Outcome=="", "l'outcome", input$Outcome),
         "si tous les individus avaient" ,ifelse(input$Mediateur=="", "le facteur intermédiaire", input$Mediateur),
-        "d'une catégorie de ", ifelse(input$Expo=="", "l'exposition", input$Expo), "fixée ? </b")
+        "d'une catégorie de ", ifelse(input$Expo=="", "l'exposition", input$Expo), "fixée ? </b> <br>
+        e.g. Si tous les individus avait la même valeur", ifelse(input$Mediateur=="", "du facteur intermédiaire", paste("du", input$Mediateur)),
+        "que les individus exposés")
 })
 
 output$QMedB4 <- renderText({

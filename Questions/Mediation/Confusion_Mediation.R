@@ -1,4 +1,5 @@
 function(values){div(class = 'container',
+                     h3("Facteurs de confusion"),
                      htmlOutput("QconfusionExpOutMed"),
                      radioButtons("ConfuExpOutMed","Apparraissent-ils tous sur votre DAG ?",
                                   choices = c("Oui", "Non"),

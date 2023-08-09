@@ -1,5 +1,6 @@
 function(values){ 
   div(class = 'container',
+      h3("Colliders"),
       htmlOutput("QCollidExpOutMediation"),
       radioButtons("CollidExpOutMediation","",
                    choices = c("Oui", "Non"),

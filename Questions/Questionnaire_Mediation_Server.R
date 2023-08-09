@@ -92,13 +92,25 @@ observe_events_Mediation <- function(input, output, session, currentPage, values
     else{
       values$CollidExpOutMediation = input$CollidExpOutMediation
       values$CollidMedOut = input$CollidMedOut
-      currentPage(InterractionMed)
+      currentPage(PositiviteMed)
     }
+  })
+  
+  # Button Prev après questions sur la positivité
+  observeEvent(input$Posi_Med_Prev, {
+    currentPage(CollidMed)
+  })
+  
+  #Button Next après questions sur la positivité
+  observeEvent(input$Posi_Med_Next, {
+    values$PosiExpMed <- input$PosiExpMed
+    values$PosiMedMed <- input$PosiMedMed
+    currentPage(InterractionMed)
   })
   
   #Button Prev après questions sur l'interraction
   observeEvent(input$Interraction_Med_Prev, {
-    currentPage(CollidMed)
+    currentPage(PositiviteMed)
   })
   
   #Button Next après questions sur l'interraction
@@ -111,6 +123,11 @@ observe_events_Mediation <- function(input, output, session, currentPage, values
   #Button Prev après résumé des réponses
   observeEvent(input$Resume_Med_Prev, {
     currentPage(InterractionMed)
+  })
+  
+  #Button Valider après résumé des réponses
+  observeEvent(input$Valider_Med, {
+    currentPage(Reco)
   })
   
   ### Texte questions confusion ###
@@ -141,9 +158,21 @@ observe_events_Mediation <- function(input, output, session, currentPage, values
     paste("<b> Votre graphe contient-il des variables qui sont influencées à la fois par ", ifelse(input$Mediateur=="", "le facteur intermédiaire", input$Mediateur), "et par", ifelse(input$Outcome=="", "l'outcome", input$Outcome),"</b>,
         i.e. contient-il des colliders entre le médiateur et l'outcome")})
   
+  ### Texte pour question sur la positivité de l'exposition ###
+  output$QPosiExpMed <- renderText({
+    "<b> Suspectez-vous que certaines combinaisons des facteurs de confusions correspondent uniquement à des individus exposés/non-exposés, </b>
+          i.e Y a-t-il des individus qui ne peuvent pas être exposés/non-exposés de part leurs caractéristiques ?"
+  })
+  
+  ### Texte pour question sur la positivité du médiateur ###
+  output$QPosiMedMed <- renderText({
+    paste("<b> Suspectez-vous que certaines combinaisons des facteurs de confusions et de l'exposition conduisent systématiquement à la même valeur (ou à certaines valeurs) du facteur intermédiaire, </b> <br> 
+          i.e Y a-t-il des individus qui ne peuvent pas prendre certaines valeurs", ifelse(input$Mediateur=="", "du facteur intermédiaire", paste("de", input$Mediateur)), "de part leurs caractéristiques et leur", ifelse(input$Expo=="", "exposition", paste("valeur de", input$Expo)) ,"?")
+  })
+  
   ### Texte pour le terme d'interraction ###
   output$QInterractionExpMed <- renderText({
-    paste("<b> Souhaitez-vous isoler l'éventuelle interraction entre ", ifelse(input$Expo=="", "l'exposition", input$Expo), "et par", ifelse(input$Mediateur=="", "le facteur intermédiaire", input$Mediateur),"</b>,
+    paste("<b> Souhaitez-vous isoler l'éventuelle interraction entre ", ifelse(input$Expo=="", "l'exposition", input$Expo), "et par", ifelse(input$Mediateur=="", "le facteur intermédiaire", input$Mediateur),", </b> <br>
         i.e. s'il y a une interraction entre l'exposition et le médiateur, souhaitez-vous la faire ressortir dans un terme à part ?")})
   
   ###### Partie résumé des réponses #####
@@ -178,6 +207,15 @@ observe_events_Mediation <- function(input, output, session, currentPage, values
                "Réponse" = reponses)
   })
   
+  # Contraintes sur la positivité
+  output$ContraintesMed3 <- renderTable({
+    noms <- c("Risque de non positivité de l'exposition (sachant les caractéristiques)",
+              "Risque de non positivité du médiateur (sachant les caractéristiques et l'exposition)")
+    reponses <- c(input$PosiExpMed, input$PosiMedMed)
+    data.frame("Critère" = noms,
+               "Réponse" = reponses)
+  })
+  
   # Terme d'interaction
   output$InteractionMed <- renderTable({
     noms <- "Terme d'interaction isolé"
@@ -194,7 +232,7 @@ observe_events_Mediation <- function(input, output, session, currentPage, values
   output$ObjectifResumeMed <- renderUI({
     exposition <- ifelse(input$Expo=="", "l'exposition", input$Expo)
     mediateur <- ifelse(input$Mediateur=="", "le médiateur", input$Mediateur)
-    outcome <- ifelse(input$Outcome=="", "l'outcome", input$outcome)
+    outcome <- ifelse(input$Outcome=="", "l'outcome", input$Outcome)
     texte <- "<ul>"
     if(input$question1=="Oui"){texte <- paste(texte, " <li> Effet de", exposition, "sur", outcome, "</li>")}
     if(input$ObjMedA1=="Oui"){texte <- paste(texte, "<br/> <li> Effet de", exposition, "sur", outcome, "après la miste en place d'une intervention qui affecte", mediateur, "</li>")}

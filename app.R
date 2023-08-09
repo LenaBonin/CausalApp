@@ -2,11 +2,12 @@
 library(shiny)
 library(shinyjs)
 library(shinyalert)
+library(tidyverse)
 
 source("Questions\\Questionnaire_Obj_UI.R")
 source("Questions\\Questionnaire_TotalEffect_UI.R")
 source("Questions\\Questionnaire_Mediation_UI.R")
-
+source("Recommandations\\Recommandations_UI.R")
 
 
 ui <- fluidPage(
@@ -77,6 +78,7 @@ server <- function(input, output, session) {
                            ConfuExpOutMed = NULL, ConfuExpMedMed = NULL, ConfuMedOutMed = NULL, ConfuNonMesureMed = NULL, ConfuInfluence = NULL, 
                            ShortTime = NULL, add_hyp_cond = NULL,
                            CollidExpOutMediation = NULL, CollidMedOut = NULL,
+                           PosiExpMed = NULL, PosiMedMed = NULL,
                            InterractionExpMed = NULL, InterractionDirIndir = NULL
                            )
   
@@ -109,6 +111,8 @@ server <- function(input, output, session) {
   observe_events_TotalEffect(input, output, session, currentPage, values)
   source("Questions\\Questionnaire_Mediation_Server.R", local = T)$value 
   observe_events_Mediation(input, output, session, currentPage, values)
+  source("Recommandations\\Recommandations_Server.R")
+  observe_events_Recommandations(input, output, session, currentPage, values)
   
 }
 

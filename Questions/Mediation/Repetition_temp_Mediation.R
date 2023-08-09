@@ -1,5 +1,6 @@
 function(values){ 
   div(class = 'container',
+      h3("Confusion intermédiaire et mesures répétées"),
       radioButtons("ExpRepMed",paste("La mesure de votre exposition", values$Expo,  "est-elle répétée dans le temps ?"),
                    choices = c("Oui", "Non"), 
                    selected = values$ExpRepMed),

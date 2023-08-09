@@ -1,5 +1,6 @@
 function(values){ 
   div(class = 'container',
+      h3("Interraction entre l'exposition et le médiateur"),
       htmlOutput("QInterractionExpMed"),
       radioButtons("InterractionExpMed","",
                    choices = c("Oui", "Non"),

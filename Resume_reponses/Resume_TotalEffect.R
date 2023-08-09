@@ -20,7 +20,7 @@ fluidRow(
          )),
   
   actionButton("Resume_Tot_Prev", "< Previous"),
-  actionButton("Valider_Med", "Valider")
+  actionButton("Valider_Tot", "Valider")
 )
 }
 

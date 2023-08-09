@@ -20,7 +20,9 @@ function(values){
              tableOutput("ContraintesMed"),
              br(),
              h5("Facteurs de confusion"),
-             tableOutput("ContraintesMed2")
+             tableOutput("ContraintesMed2"),
+             h5("Positivité"),
+             tableOutput("ContraintesMed3")
            )),
     
     column(12,
