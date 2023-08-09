@@ -8,7 +8,6 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
   # Quantités à estimer
   Estimands <- reactive({
     TotalEffect <- !is.null(values$question1) & values$question1=="Oui"
-    print(input$question2)
     
     CDE <- !is.null(input$question2) & (!is.null(input$ObjMedA1) | !is.null(input$ObjMedA2))&
       values$question2=="Oui" & (values$ObjMedA1 == "Oui" | values$ObjMedA2=="Oui")
@@ -81,7 +80,8 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
   output$Estimands <- renderTable({
     
     Estimands()%>% 
-      dplyr::filter(Estimation==T)
+      dplyr::filter(Estimation==T) %>% 
+      dplyr::select((-Estimation))
  })
   
   ###### PArtie Décomposition #######
@@ -90,10 +90,11 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
       dplyr::filter(Estimation==T)
     
     AEstimer <- as.vector(Estimands$Abbreviation)
+    print(AEstimer)
     
-    if("TNIE"%in%AEstimer | "TNDE"%in%AEstimer)
-      HTML("2-way decomposition")
-    if("PNDE"%in%AEstimer & "PNIE"%in%AEstimer)HTML("3-way decomposition")
+    if("TNIE" %in% AEstimer | "TNDE" %in% AEstimer)
+      Decomp <- HTML("2-way decomposition")
+    else if("PNDE"%in%AEstimer & "PNIE"%in%AEstimer) Decomp <- HTML("3-way decomposition")
   })
   
   ###### PArtie Méthode ######
