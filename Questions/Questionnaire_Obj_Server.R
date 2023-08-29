@@ -132,7 +132,7 @@ output$QMedB3 <- renderText({
 })
 
 output$QMedB4 <- renderText({
-  paste("<b> Quel part de l’effet de  ",  ifelse(input$Expo=="", "l'exposition", input$Expo),
+  paste("<b> Quelle part de l’effet de  ",  ifelse(input$Expo=="", "l'exposition", input$Expo),
         "sur", ifelse(input$Outcome=="", "l'outcome", input$Outcome),
         "est due à l'effet de ", ifelse(input$Expo=="", "l'exposition", input$Expo), "sur",
         ifelse(input$Mediateur=="", "le facteur intermédiaire", input$Mediateur), "? </b")

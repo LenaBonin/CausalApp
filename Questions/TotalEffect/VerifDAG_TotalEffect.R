@@ -1,5 +1,6 @@
 function(values){ 
   div(class = 'container',
+      h3("Médiateurs et colliders"),
     htmlOutput("QMedExpOut"),
     radioButtons("MedExpOutTot","",
                  choices = c("Oui", "Non"),

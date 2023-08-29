@@ -113,6 +113,8 @@ server <- function(input, output, session) {
   observe_events_Mediation(input, output, session, currentPage, values)
   source("Recommandations\\Recommandations_Server.R")
   observe_events_Recommandations(input, output, session, currentPage, values)
+  source("Recommandations\\Recommandations_TotalEffect_Server.R")
+  observe_events_Recommandations_Tot(input, output, session, currentPage, values)
   
 }
 

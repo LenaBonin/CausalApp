@@ -2,6 +2,7 @@
 
 function(values){ 
   div(class = 'container',
+      h3("Positivité"),
       radioButtons("QPosiTot","Suspectez-vous que certaines combinaisons des facteurs de confusions correspondent uniquement à des individus exposés/non-exposés,
                    i.e Y a-t-il des individus qui ne peuvent pas être exposés/non-exposés de part leurs caractéristiques ?",
                    choices = c("Oui", "Non", "Je ne sais pas"),

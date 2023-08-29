@@ -1,6 +1,7 @@
 function(values){
   
   div(class = 'container',
+      h3("Type des variables"),
       radioButtons("TypExpTot", "Quelle est la nature de votre variable d'exposition ? ", 
                    choices = c("J'en ai plusieurs", "Quantitative", "Binaire", "Ordinale", "Nominale"), 
                    selected = values$TypExpTot),

@@ -118,13 +118,25 @@ output$ObjectifResumeTot <- renderText({
 output$ContraintesTot <- renderTable({
   ExpRepet <- ifelse(input$ExpRepTot=="Oui", "Répétée", "Non répétée")
   OutRepet <- ifelse(input$OutRepTot=="Oui", "Répété", "Non répété")
-  data.frame("Critère" = c("Exposition", "Outcome", "Facteurs de confusion non mesurés", "Problème de positivité"),
-             "Réponse" = c(ExpRepet, OutRepet, input$ConfuNonMesureTot, input$QPosiTot))
+  if(input$ExpRepTot=="Oui"){
+    ConfRepet <- ifelse(input$ConfRepTot=="Oui", "Répété(s)", "Non répété(s)")
+    data.frame("Critère" = c("Exposition", "Facteur(s) de confusion", "Outcome", "Facteurs de confusion non mesurés", "Problème de positivité"),
+               "Réponse" = c(ExpRepet, ConfRepet, OutRepet, input$ConfuNonMesureTot, input$QPosiTot))
+  }
+  else{
+    data.frame("Critère" = c("Exposition", "Outcome", "Facteurs de confusion non mesurés", "Problème de positivité"),
+              "Réponse" = c(ExpRepet, OutRepet, input$ConfuNonMesureTot, input$QPosiTot))
+  }
 })
 
 # Bouton Prev après le résumé
 observeEvent(input$Resume_Tot_Prev, {
   currentPage(PosiTot)
+})
+
+#Bouton Valider après résumé des réponses
+observeEvent(input$Valider_Tot, {
+  currentPage(RecoTot)
 })
 
 }

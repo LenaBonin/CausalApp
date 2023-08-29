@@ -127,7 +127,7 @@ observe_events_Mediation <- function(input, output, session, currentPage, values
   
   #Button Valider après résumé des réponses
   observeEvent(input$Valider_Med, {
-    currentPage(Reco)
+    currentPage(RecoMed)
   })
   
   ### Texte questions confusion ###

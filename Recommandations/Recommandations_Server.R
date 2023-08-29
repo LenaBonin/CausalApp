@@ -21,7 +21,13 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
     
     PropMediated <- !is.null(values$question2) & !is.null(values$ObjMedB4) & values$question2=="Oui" & values$ObjMedB4=="Oui"
     
+    if(PropMediated==T) NIE <- TotalEffect <- T  # On a besoin de ces mesures pour calculer PropMediated
+    if(PropEliminated==T) CDE <- TotalEffect <- T # On a besoin de ces mesures pour calculer PropEliminated
+    
     if(input$InterractionExpMed=="Oui" & (NDE==T | NIE==T)){
+      # On isole le terme d'interaction
+      MIE = T
+      
       if(NDE==T){
         PNDE <- T
         TNDE <- F
@@ -40,6 +46,9 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
       }
     }
     else if(input$InterractionExpMed=="Non" & (NDE==T | NIE==T)){
+      # On n'isole pas le terme d'interaction
+      MIE = F
+      
       if(input$InterractionDirIndir=="Direct"){
         if(NDE==T){
           TNDE <- T
@@ -65,14 +74,14 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
         else{PNIE <- TNIE <- F}
       }
     }
-    else{PNDE <- TNDE <- PNIE <- TNIE <- F}
+    else{PNDE <- TNDE <- PNIE <- TNIE <- MIE <- F}
     
     
     Estimands <- data.frame(
       Effet = c("Effet total", "Effet direct controlé", "Proportion éliminée", "Effet naturel direct pur", "Effet naturel direct total",
-                "Effet naturel indirect pur", "Effet naturel indirect total", "Proportion médiée"),
-      Abbreviation = c("TE", "CDE", "PropEliminated", "PNDE", "TNDE", "PNIE", "TNIE", "PropMediated"),
-      Estimation = c(TotalEffect, CDE, PropEliminated, PNDE, TNDE, PNIE, TNIE, PropMediated)
+                "Effet naturel indirect pur", "Effet naturel indirect total", "Proportion médiée", "Mediated interactive effect"),
+      Abbreviation = c("TE", "CDE", "PropEliminated", "PNDE", "TNDE", "PNIE", "TNIE", "PropMediated", "MIE"),
+      Estimation = c(TotalEffect, CDE, PropEliminated, PNDE, TNDE, PNIE, TNIE, PropMediated, MIE)
     ) 
     
   })
@@ -90,23 +99,31 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
       dplyr::filter(Estimation==T)
     
     AEstimer <- as.vector(Estimands$Abbreviation)
-    print(AEstimer)
     
     if("TNIE" %in% AEstimer | "TNDE" %in% AEstimer)
-      Decomp <- HTML("2-way decomposition")
-    else if("PNDE"%in%AEstimer & "PNIE"%in%AEstimer) Decomp <- HTML("3-way decomposition")
+      Decomp <- "2-way decomposition :"
+    else if("PNDE"%in%AEstimer & "PNIE"%in%AEstimer) Decomp <- "3-way decomposition :"
+    
+    if("TNIE" %in% AEstimer){
+      Decomp <- paste(Decomp, "<br> TE = TNIE + PNDE")
+    }
+    else if("TNDE" %in% AEstimer) Decomp <- paste(Decomp, "<br> TE = TNDE + PNIE")
+    else if(Decomp=="3-way decomposition :") Decomp <- paste(Decomp, "<br> TE = PNDE + PNIE + MIE")
+    
+    HTML(Decomp)
   })
   
   ###### PArtie Méthode ######
   output$MethodeRecommandee <- renderUI({
-    if(input$ExpRepMed == F & input$MediateurRepMed==F & input$OutRepMed==F){
+    print(c(input$ExpRepMed, input$MediateurRepMed, input$OutRepMed))
+    if(input$ExpRepMed == "Non" & input$MediateurRepMed=="Non" & input$OutRepMed=="Non"){
       Method <- "Regressions"
     }
-    else if(input$OutRepMed==F){
+    else if(input$OutRepMed=="Non"){
       Method <- "G-méthodes"
     }
     else(
-      Method <- "Mixed models (Modèles à effets aléatoires) ou G-méthodes"
+      Method <- "Modèles mixtes (Modèles à effets aléatoires) ou G-méthodes"
     )
     
     # Probleme de non positivité évidente
