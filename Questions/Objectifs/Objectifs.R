@@ -1,6 +1,7 @@
 function(values){
 div(class = 'container',
         h3("Votre objectif est-il du type:"),
+    p("(Les variables proposées dans les deux phrases suivantes ne sont que des exemples, et pourront ensuite être remplacées par vos propres variables)"),
         radioButtons("question1", "Quelle est l'effet de la classe sociale sur la mortalité ? ",
                      choices = c("Oui", "Non"),
                      selected = values$question1),

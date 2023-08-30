@@ -1,6 +1,7 @@
 TypVarMed <- "Questions\\Mediation\\Variables_Mediation"
 RepeteMed <- "Questions\\Mediation\\Repetition_temp_Mediation"
 ConfuMed <- "Questions\\Mediation\\Confusion_Mediation"
+ConfuMed_CDE <- "Questions\\Mediation\\Confusion_CDE_only_Mediation"
 CollidMed <- "Questions\\Mediation\\Verif_Colliders_Mediation"
 PositiviteMed <- "Questions\\Mediation\\Positivite_Mediation"
 InterractionMed <- "Questions\\Mediation\\Interraction_Mediation"

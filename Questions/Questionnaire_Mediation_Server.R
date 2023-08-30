@@ -33,7 +33,12 @@ observe_events_Mediation <- function(input, output, session, currentPage, values
     values$ExpRepMed <- input$ExpRepMed
     values$MediateurRepMed <- input$ConfRepMed
     values$OutRepMed <- input$OutRepMed
-    currentPage(ConfuMed)
+    
+    if((input$ObjMedA1=="Oui" || input$ObjMedA2=="Oui" || input$ObjMedA3=="Oui" || input$ObjMedA2=="Oui") 
+       & (input$ObjMedB1=="Non" & input$ObjMedB2=="Non" & input$ObjMedB3=="Non" & input$ObjMedB4=="Non")){
+      currentPage(ConfuMed_CDE)
+    }
+    else currentPage(ConfuMed)
   })
   
   #Button Prev après questions sur la confusion
@@ -79,9 +84,28 @@ observe_events_Mediation <- function(input, output, session, currentPage, values
     }
   })
   
+  #Button Next après questions sur la confusion dans le cas d'uniquement CDE
+  observeEvent(input$Confu_Med_CDE_Next, {
+    if(input$ConfuExpOutMed=="Non" | input$ConfuMedOutMed=="Non"){
+      shinyalert("Facteurs de confusion manquant", "Vous devez faire apparaître tous les facteurs de confusion des trois relations
+                 exposition/outcome, exposition/médiateur, médiateur/outcome sur votre DAG. \n
+                 Rajoutez-les avant de poursuivre.")
+    }
+    else{
+      values$ConfuExpOutMed = input$ConfuExpOutMed
+      values$ConfuMedOutMed = input$ConfuMedOutMed
+      values$ConfuNonMesureMed= input$ConfuNonMesureMed
+      currentPage(CollidMed)
+    }
+  })
+  
   #Button Prev après questions sur les colliders
   observeEvent(input$Verif_Collid_Med_Prev, {
-    currentPage(ConfuMed)
+    if((input$ObjMedA1=="Oui" || input$ObjMedA2=="Oui" || input$ObjMedA3=="Oui" || input$ObjMedA2=="Oui") 
+       & (input$ObjMedB1=="Non" & input$ObjMedB2=="Non" & input$ObjMedB3=="Non" & input$ObjMedB4=="Non")){
+      currentPage(ConfuMed_CDE)
+    }
+    else currentPage(ConfuMed)
   })
   
   #Button Next après questions sur les colliders
@@ -192,19 +216,28 @@ observe_events_Mediation <- function(input, output, session, currentPage, values
   
   # Contraintes sur les facteurs de confusion
   output$ContraintesMed2 <- renderTable({
-    noms <- c("Facteurs de confusion non mesurés",
-              "Facteur de confusion de la relation médiateur/outcome influencé par l'exposition")
-    reponses <- c(input$ConfuNonMesureMed, input$ConfuInfluence)
-    if(input$ConfuInfluence=="Oui"){
-      noms <- c(noms, "Peu de temps entre observation de l'exposition et du médiateur")
-      reponses <- c(reponses, input$ShortTime)
-      if(input$ShortTime=="Non"){
-        noms <- c(noms, "Après ajustement, pas de confusion non mesurée de la relation médiateur/outcome")
-        reponses <- c(reponses, input$add_hyp_cond)
-      }
+    if((input$ObjMedA1=="Oui" || input$input$ObjMedA2=="Oui" || input$input$ObjMedA3=="Oui" || input$input$ObjMedA2=="Oui") 
+       & (input$ObjMedB1=="Non" & input$ObjMedB2=="Non" & input$ObjMedB3=="Non" & input$ObjMedB4=="Non")){
+      data.frame("Critère" = "Facteurs de confusion non mesurés",
+                 "Réponse" = input$ConfuNonMesureMed)
     }
-    data.frame("Critère" = noms,
-               "Réponse" = reponses)
+    
+    else{
+    
+      noms <- c("Facteurs de confusion non mesurés",
+              "Facteur de confusion de la relation médiateur/outcome influencé par l'exposition")
+      reponses <- c(input$ConfuNonMesureMed, input$ConfuInfluence)
+      if(input$ConfuInfluence=="Oui"){
+        noms <- c(noms, "Peu de temps entre observation de l'exposition et du médiateur")
+        reponses <- c(reponses, input$ShortTime)
+        if(input$ShortTime=="Non"){
+          noms <- c(noms, "Après ajustement, pas de confusion non mesurée de la relation médiateur/outcome")
+          reponses <- c(reponses, input$add_hyp_cond)
+        }
+      }
+      data.frame("Critère" = noms,
+                "Réponse" = reponses)
+    }
   })
   
   # Contraintes sur la positivité

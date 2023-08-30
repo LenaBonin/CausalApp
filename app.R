@@ -1,4 +1,3 @@
-
 library(shiny)
 library(shinyjs)
 library(shinyalert)
@@ -13,6 +12,7 @@ source("Recommandations\\Recommandations_UI.R")
 ui <- fluidPage(
   
   useShinyjs(),
+  withMathJax(), # To include inline math equations
   #useShinyalert(), #Set up shinyalert (for pop ups)
   tags$head(
     tags$style(HTML("

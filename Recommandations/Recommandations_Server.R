@@ -95,27 +95,76 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
   
   ###### PArtie Décomposition #######
   output$DecompEffet <- renderUI({
-    Estimands <- Estimands() %>% 
+    Estimands <- Estimands() %>%
       dplyr::filter(Estimation==T)
-    
+
     AEstimer <- as.vector(Estimands$Abbreviation)
-    
+
     if("TNIE" %in% AEstimer | "TNDE" %in% AEstimer)
-      Decomp <- "2-way decomposition :"
-    else if("PNDE"%in%AEstimer & "PNIE"%in%AEstimer) Decomp <- "3-way decomposition :"
-    
+      Decomp <- "<b>2-way decomposition :</b>"
+    else if("PNDE"%in%AEstimer & "PNIE"%in%AEstimer) Decomp <- "<b>3-way decomposition :</b>"
+
     if("TNIE" %in% AEstimer){
-      Decomp <- paste(Decomp, "<br> TE = TNIE + PNDE")
+      Decomp <- paste(Decomp, "$$TE = TNIE + PNDE$$")
     }
-    else if("TNDE" %in% AEstimer) Decomp <- paste(Decomp, "<br> TE = TNDE + PNIE")
-    else if(Decomp=="3-way decomposition :") Decomp <- paste(Decomp, "<br> TE = PNDE + PNIE + MIE")
+    else if("TNDE" %in% AEstimer) Decomp <- paste(Decomp, "$$TE = TNDE + PNIE$$")
+    else if(Decomp=="<b>3-way decomposition :</b>") Decomp <- paste(Decomp, "$$TE = PNDE + PNIE + MIE$$")
+
+    if("PropEliminated" %in% AEstimer){
+      Decomp <- paste(Decomp, "<br> <b>Proportion éliminée :</b> <br> <span style='margin-left: 50px;'> Echelle additive : </span> $$\\frac{TE - CDE}{TE}$$
+                       <br> <span style='margin-left: 50px;'> Echelle risque relatif : </span> $$\\frac{OR^{TE} - OR^{CDE}}{OR^{TE}-1}$$")
+    }
+    if("PropMediated" %in% AEstimer){
+      # Le choix de l'effet direct (PNDE ou TNDE) et indirect dépendent des réponses
+      if("TNIE" %in% AEstimer){
+        Decomp <- paste(Decomp, "<br> <b>Proportion médiée :</b> <br> <span style='margin-left: 50px;'> Echelle additive : </span> $$\\frac{TNIE}{TE}$$
+                        <br> <span style='margin-left: 50px;'> Echelle risque relatif : </span> $$\\frac{OR^{PNDE}(OR^{TNIE}-1)}{OR^{PNDE}OR^{TNIE}-1}$$")
+      }
+      
+      else{ #PNIE
+          Decomp <- paste(Decomp, "<br> <b>Proportion médiée :</b> <br> <span style='margin-left: 50px;'> Echelle additive : </span> $$\\frac{PNIE}{TE}$$")
+          #Then we must differentiate PNDE and TNDE
+          if("PNDE"%in% AEstimer){
+            Decomp <- paste(Decomp, "<br>  <span style='margin-left: 50px;'> Echelle risque relatif : </span> $$\\frac{OR^{PNDE}(OR^{PNIE}-1)}{OR^{PNDE}OR^{PNIE}-1}$$")
+          }
+          else{ #TNDE
+              Decomp <- paste(Decomp, "<br>  <span style='margin-left: 50px;'> Echelle risque relatif : </span> $$\\frac{OR^{TNDE}(OR^{PNIE}-1)}{OR^{TNDE}OR^{PNIE}-1}$$")
+          }
+      }
+      
+    }
     
-    HTML(Decomp)
+
+    withMathJax(HTML(Decomp))
+    #HTML(Decomp)
   })
   
+  # output$DecompEffet <- renderUI({
+  #   Estimands <- Estimands() %>%
+  #     dplyr::filter(Estimation==T)
+  # 
+  #   AEstimer <- as.vector(Estimands$Abbreviation)
+  # 
+  #   if("TNIE" %in% AEstimer | "TNDE" %in% AEstimer)
+  #     Decomp <- "<br> 2-way decomposition :"
+  #   else if("PNDE"%in%AEstimer & "PNIE"%in%AEstimer) Decomp <- "<br> 3-way decomposition :"
+  # 
+  #   if("TNIE" %in% AEstimer){
+  #     Decomp <- paste(Decomp, "<br> <math> TE = TNIE + PNDE </math>")
+  #   }
+  #   else if("TNDE" %in% AEstimer) Decomp <- paste(Decomp, "<br> <math> TE = TNDE + PNIE </math>")
+  #   else if(Decomp=="3-way decomposition :") Decomp <- paste(Decomp, "<br> <math> TE = PNDE + PNIE + MIE </math>")
+  # 
+  #   if("PropEliminated" %in% AEstimer){
+  #     Decomp <- paste(Decomp, "<br> Proportion éliminée : <br> Echelle additive : $$(TE - CDE)/TE$$
+  #                     <br> Echelle risque relatif : <math display='block'> <mfrac> <mn> <var>OR <sup> TE</sup></var> - <var>OR<sup>CDE</sup></var></mn> <mn><var>OR<sup>TE</sup></var></mn> </mfrac></math>")
+  #   }
+  # 
+  #   HTML(Decomp)
+  # })
+  
   ###### PArtie Méthode ######
-  output$MethodeRecommandee <- renderUI({
-    print(c(input$ExpRepMed, input$MediateurRepMed, input$OutRepMed))
+  Methode <- reactive({
     if(input$ExpRepMed == "Non" & input$MediateurRepMed=="Non" & input$OutRepMed=="Non"){
       Method <- "Regressions"
     }
@@ -125,6 +174,11 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
     else(
       Method <- "Modèles mixtes (Modèles à effets aléatoires) ou G-méthodes"
     )
+    Method
+  })
+  
+  output$MethodeRecommandee <- renderUI({
+    Method <- Methode()
     
     # Probleme de non positivité évidente
     if(input$PosiExpMed=="Oui" | input$PosiMedMed=="Oui"){
@@ -134,6 +188,7 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
     }
     HTML(Method)
   })
+
   
 }
 

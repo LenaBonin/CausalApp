@@ -9,7 +9,7 @@ observe_events_Recommandations_Tot <- function(input, output, session, currentPa
   ###### PArtie Méthode ######
   output$MethodeRecommandee_Tot <- renderUI({
     print(c(input$ExpRepTot, input$OutRepTot))
-    if(input$ExpRepTot == "Non" & input$OutRepTot=="Non"){
+    if((input$ExpRepTot == "Non" | (input$ExpRepTot=="Oui" & input$ConfRepTot=="Non")) & input$OutRepTot=="Non"){
       Method <- "Regressions"
     }
     else if(input$OutRepTot=="Non"){
