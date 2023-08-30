@@ -3,7 +3,7 @@ function(values){
   div(class = 'container',
       h3("Type des variables"),
       radioButtons("TypExpTot", "Quelle est la nature de votre variable d'exposition ? ", 
-                   choices = c("J'en ai plusieurs", "Quantitative", "Binaire", "Ordinale", "Nominale"), 
+                   choices = c("Quantitative", "Binaire", "Ordinale", "Nominale", "J'en ai plusieurs"), 
                    selected = values$TypExpTot),
       br(),
       textAreaInput(
@@ -17,7 +17,7 @@ function(values){
       
       br(), 
       radioButtons("TypOutcomeTot", "Quelle est la nature de votre outcome ?", 
-                   choices = c("J'en ai plusieurs", "Quantitative", "Binaire", "Ordinale", "Nominale", "Survie / Time-to-event"),
+                   choices = c("Quantitative", "Binaire", "Ordinale", "Nominale", "Survie / Time-to-event", "J'en ai plusieurs"),
                    selected = values$TypOutcomeTot),
       br(),
       textAreaInput(

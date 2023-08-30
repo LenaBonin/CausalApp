@@ -73,7 +73,7 @@ server <- function(input, output, session) {
                            Expo = "", Mediateur = "", Outcome="", 
                            ObjMedA1 = NULL, ObjMedA2 = NULL, ObjMedA3 = NULL,
                            ObjMedB1 = NULL, ObjMedB2 = NULL, ObjMedB3 = NULL, ObjMedB4 = NULL,
-                           TypExpMed = NULL, TypMediateurMed = NULL, TypOutcomeMed = NULL, EffetTotVerif = NULL,
+                           TypExpMed = NULL, TypMediateurMed = NULL, TypOutcomeMed = NULL, EffetTotVerif = NULL, RareOutcome=NULL,
                            ExpRepMed = NULL, MediateurRepMed = NULL, OutRepMed = NULL,
                            ConfuExpOutMed = NULL, ConfuExpMedMed = NULL, ConfuMedOutMed = NULL, ConfuNonMesureMed = NULL, ConfuInfluence = NULL, 
                            ShortTime = NULL, add_hyp_cond = NULL,
