@@ -2,6 +2,7 @@ function(values){
   div(class = 'container',
       h3("Facteurs de confusion"),
       htmlOutput("QconfusionExpOut"),
+      img(src="Confusion.png", width="30%"),
       radioButtons("ConfuTot","Apparraissent-ils tous sur votre DAG ?",
                   choices = c("Oui", "Non"),
                   selected = values$ConfuTot),
