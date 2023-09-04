@@ -99,6 +99,7 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
       dplyr::filter(Estimation==T)
 
     AEstimer <- as.vector(Estimands$Abbreviation)
+    Decomp <- ""
 
     if("TNIE" %in% AEstimer | "TNDE" %in% AEstimer)
       Decomp <- "<b>2-way decomposition :</b>"
@@ -166,13 +167,13 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
   ###### PArtie Méthode ######
   Methode <- reactive({
     if(input$ExpRepMed == "Non" & input$MediateurRepMed=="Non" & input$OutRepMed=="Non"){
-      Method <- "Regressions"
+      Method <- "Régressions"
     }
     else if(input$OutRepMed=="Non"){
       Method <- "G-méthodes"
     }
     else(
-      Method <- "Modèles mixtes (Modèles à effets aléatoires) ou G-méthodes"
+      Method <- "G-méthodes ou modèles mixtes (Modèles à effets aléatoires)"
     )
     Method
   })
@@ -180,13 +181,28 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
   output$MethodeRecommandee <- renderUI({
     Method <- Methode()
     
+    if(Method=="Régressions" && input$TypOutcomeMed=="Binaire" && input$RareOutcome=="Non"){
+      Method <- paste(Method, "<br> Dans la deuxième régression: outcome expliqué par l'exposition, le médiateur et les facteurs de confusion, bien que votre outcome soit binaire, vous ne pouvez pas effectuer une regression logistique car celle-ci n'est valide
+                      que dans le cas d'un outcome rare (à cause de la non-collapsibilité des odds-ratio). Vous pouvez effectué une régression log-linéaire ou log-binomiale. <br> Si vous le préférer, vous pouvez, au lieu d'utiliser des régressions classiques, utiliser les g-méthodes. Vous pourrez alors les aplliquer à partir d'une régression logistique.")
+    }
+    
+    if(Method=="Régressions" && input$TypOutcomeMed=='Survie / Time-to-event' && input$RareOutcome=="Non"){
+      Method <- paste(Method, "<br> Dans la deuxième régression: outcome expliqué par l'exposition, le médiateur et les facteurs de confusion, bien que votre outcome soit une survie, vous ne pouvez pas effectuer une regression de Cox car celle-ci n'est valide
+                      que dans le cas d'un outcome rare (à cause de la non-collapsibilité des hazard-ratio). Vous devez effectué un accelerated failure time model. <br> Si vous le préférer, vous pouvez, au lieu d'utiliser des régressions classiques, utiliser les g-méthodes. Vous pourrez alors les aplliquer à partir d'une régression de Cox.")
+    }
+    
+    if(Method=="G-méthodes ou modèles mixtes (Modèles à effets fixes)"){
+      Method <- paste(Method, "<br> Nous vous conseillons de ne conserver que la dernière mesure de votre outcome et d'appliquer une g-méthode. Cela permettra de tenir compte de dynamique causale, ce que ne permettra pas un modèle mixte. Cependant, cela se fait au détriment de tenir compte des facteurs de confusion constants, non mesurés.")
+    }
+    
     # Probleme de non positivité évidente
     if(input$PosiExpMed=="Oui" | input$PosiMedMed=="Oui"){
       Method <- paste(Method,
-                      "<br> <br> L'hypothèse de positivité nécéssaire à l'analyse de médiation est violée, <b> vos résultats seront donc probablement biaisés </b>. <br>
-                      Nous recommandons, si vous souhaitez tout de même faire l'analyse de faire de la <b> g-computation </b>, mais vous devrez rester très prudent dans l'interprétation des résultats")
+                      "<br> <br> L'hypothèse de positivité nécéssaire à l'analyse de médiation est violée, <b> vos résultats seront donc probablement biaisés et imprécis </b>. <br>
+                      Nous recommandons, si vous souhaitez tout de même faire l'analyse de faire de la <b> g-computation </b>, mais vous devrez rester très prudent dans l'interprétation des résultats. Si le problème de positivité est dû au fait qu'une combinaison est impossible en théorie, la g-computation extrapole sur des combinaisons impossible. Si le problème est dû à l'échantillon, le g-computation extrapole les résultats sans avoir de données, le résultats rique donc d'être imprécis.")
     }
     HTML(Method)
+    
   })
 
   
