@@ -9,7 +9,7 @@ function(values){
       
       br(), 
       radioButtons("TypOutcomeMed", paste("Quelle est la nature de votre outcome", values$Outcome, "?"), 
-                   choices = c("Quantitative", "Binaire", "Ordinal", "Nominal", "Survie / Time-to-event", "J'en ai plusieurs"),
+                   choices = c("Quantitatif", "Binaire", "Ordinal", "Nominal", "Survie / Time-to-event", "J'en ai plusieurs"),
                    selected = values$TypOutcomeMed),
       
       br(),

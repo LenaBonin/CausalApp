@@ -85,6 +85,11 @@ observeEvent(input$MedB_Next, {
 # Outcome <- reactive({ifelse(input$Outcome=="", "l'outcome", input$Outcome)})
 
 # Texte questions médiation A
+output$QMedA0 <- renderText({
+  paste("Intervenir sur la variable intermédiaire", input$Mediateur, "pour mitiger/renforcer l'effet de l'exposition", input$Expo,
+        "sur l'outcome", input$Outcome)
+})
+
 output$QMedA1 <- renderText({
   paste("<b> Quel est l’effet de",  ifelse(input$Expo=="", "l'exposition", input$Expo),
         "sur", ifelse(input$Outcome=="", "l'outcome", input$Outcome),

@@ -16,6 +16,18 @@ function(values){
              htmlOutput("MethodeRecommandee_Tot")
            )),
     
+    column(12,
+           wellPanel(
+             h4("Hypothèses"),
+             htmlOutput("Assumptions_Tot")
+           )),
+    
+    column(12,
+           wellPanel(
+             h4("Packages R"),
+             htmlOutput("Packages_Tot")
+           )),
+    
     actionButton("Recommandation_Tot_Prev", "< Previous")
   )
 }

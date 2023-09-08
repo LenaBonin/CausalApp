@@ -5,7 +5,7 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
     currentPage(ResumeMed)
   })
   
-  # Quantités à estimer
+  # Quantités à estimer: fonction qui retourne un tableau avec tous les effets possibles et TRUE ou FALSE selon qu'ils soient à estimer ou non, ainsi que l'abréviation utilisée pour les sections suivante
   Estimands <- reactive({
     TotalEffect <- !is.null(values$question1) & values$question1=="Oui"
     
@@ -86,11 +86,12 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
     
   })
   
+  # Output de la section Estimand
   output$Estimands <- renderTable({
     
     Estimands()%>% 
-      dplyr::filter(Estimation==T) %>% 
-      dplyr::select((-Estimation))
+      dplyr::filter(Estimation==T) %>%  # On filtre les effets qui sont à estimer
+      dplyr::select((-Estimation)) 
  })
   
   ###### PArtie Décomposition #######
@@ -165,6 +166,8 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
   # })
   
   ###### PArtie Méthode ######
+  
+  # Fonction qui retourne la méthode générale
   Methode <- reactive({
     if(input$ExpRepMed == "Non" & input$MediateurRepMed=="Non" & input$OutRepMed=="Non"){
       Method <- "Régressions"
@@ -173,38 +176,175 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
       Method <- "G-méthodes"
     }
     else(
-      Method <- "G-méthodes ou modèles mixtes (Modèles à effets aléatoires)"
+      Method <- "G-méthodes ou modèles mixtes (Modèles à effets fixes)"
     )
     Method
   })
   
+  # Output de la section Méthode recommandée
   output$MethodeRecommandee <- renderUI({
     Method <- Methode()
     
+    # Si g-méthode, on propose les méthodes
+    print(input$TypOutcomeMed)
+    if (Method=="G-méthodes"){
+      if(input$TypExpMed=="Quantitative" | input$TypMediateurMed=="Quantitatif"){
+        Method <- paste(Method, ": étant que votre exposition et/ou votre médiateur sont continus, le plus simple sera d'utiliser la g-computation")
+      }
+      else{
+        Method <- paste(Method, ": g-computation ou modèles structurels marginaux")
+      }
+      #Si outcome binaire ou continu on peu proposé les modèles naturel
+      if (input$TypOutcomeMed=="Binaire" | input$TypOutcomeMed=="Quantitatif"){
+    Method <- paste(Method, "<br> Vous pouvez aussi utiliser les modèles à effets naturels (Natural effect models)")
+    
+      } 
+    }
+    
+    # Si outcome binaire et pas rare pas de régression logistique
     if(Method=="Régressions" && input$TypOutcomeMed=="Binaire" && input$RareOutcome=="Non"){
       Method <- paste(Method, "<br> Dans la deuxième régression: outcome expliqué par l'exposition, le médiateur et les facteurs de confusion, bien que votre outcome soit binaire, vous ne pouvez pas effectuer une regression logistique car celle-ci n'est valide
                       que dans le cas d'un outcome rare (à cause de la non-collapsibilité des odds-ratio). Vous pouvez effectué une régression log-linéaire ou log-binomiale. <br> Si vous le préférer, vous pouvez, au lieu d'utiliser des régressions classiques, utiliser les g-méthodes. Vous pourrez alors les aplliquer à partir d'une régression logistique.")
     }
     
+    # Si outcome survie et pas rare pas de régression de Cox
     if(Method=="Régressions" && input$TypOutcomeMed=='Survie / Time-to-event' && input$RareOutcome=="Non"){
       Method <- paste(Method, "<br> Dans la deuxième régression: outcome expliqué par l'exposition, le médiateur et les facteurs de confusion, bien que votre outcome soit une survie, vous ne pouvez pas effectuer une regression de Cox car celle-ci n'est valide
                       que dans le cas d'un outcome rare (à cause de la non-collapsibilité des hazard-ratio). Vous devez effectué un accelerated failure time model. <br> Si vous le préférer, vous pouvez, au lieu d'utiliser des régressions classiques, utiliser les g-méthodes. Vous pourrez alors les aplliquer à partir d'une régression de Cox.")
     }
     
     if(Method=="G-méthodes ou modèles mixtes (Modèles à effets fixes)"){
-      Method <- paste(Method, "<br> Nous vous conseillons de ne conserver que la dernière mesure de votre outcome et d'appliquer une g-méthode. Cela permettra de tenir compte de dynamique causale, ce que ne permettra pas un modèle mixte. Cependant, cela se fait au détriment de tenir compte des facteurs de confusion constants, non mesurés.")
+      Method <- paste(Method, "<br> Nous vous conseillons de ne conserver que la dernière mesure de votre outcome et d'appliquer une g-méthode. Cela permettra de tenir compte de dynamique causale, ce que ne permettra pas un modèle mixte. Cependant, cela se fait au détriment de tenir compte des facteurs de confusion constants non mesurés. Un modèle mixte permettra de prendre en compte les effets constants non mesurés mais ne tiendras pas compte de la dynamique causale, vos résultats seront donc probablement biaisés.")
     }
     
     # Probleme de non positivité évidente
-    if(input$PosiExpMed=="Oui" | input$PosiMedMed=="Oui"){
-      Method <- paste(Method,
-                      "<br> <br> L'hypothèse de positivité nécéssaire à l'analyse de médiation est violée, <b> vos résultats seront donc probablement biaisés et imprécis </b>. <br>
-                      Nous recommandons, si vous souhaitez tout de même faire l'analyse de faire de la <b> g-computation </b>, mais vous devrez rester très prudent dans l'interprétation des résultats. Si le problème de positivité est dû au fait qu'une combinaison est impossible en théorie, la g-computation extrapole sur des combinaisons impossible. Si le problème est dû à l'échantillon, le g-computation extrapole les résultats sans avoir de données, le résultats rique donc d'être imprécis.")
-    }
+    # if(input$PosiExpMed=="Oui" | input$PosiMedMed=="Oui"){
+    #   Method <- paste(Method,
+    #                   "<br> <br> L'hypothèse de positivité nécéssaire à l'analyse de médiation est violée, <b> vos résultats seront donc probablement biaisés et imprécis </b>. <br>
+    #                   Nous recommandons, si vous souhaitez tout de même faire l'analyse de faire de la <b> g-computation </b>, mais vous devrez rester très prudent dans l'interprétation des résultats. Si le problème de positivité est dû au fait qu'une combinaison est impossible en théorie, la g-computation extrapole sur des combinaisons impossibles. Si le problème est dû à l'échantillon, le g-computation extrapole les résultats sans avoir de données, le résultats risque donc d'être imprécis.")
+    # }
     HTML(Method)
     
   })
-
+  
+  
+  ### Assumptions ###
+  output$AssumptionsMed <- renderUI({
+    Estimands <- Estimands() %>%
+      dplyr::filter(Estimation==T)
+    AEstimer <- as.vector(Estimands$Abbreviation)
+    
+    # Cas où l'on estime des effets naturels: il faut les 4 hypothèses
+    if("PNIE" %in% AEstimer | "TNIE"%in% AEstimer | "PNDE"%in% AEstimer | "TNDE"%in% AEstimer){
+      Hyp <- "1- Pas de facteur de confusion non mesuré / non controllé de la relation exposition/outcome <br>
+      2- Pas de facteur de confusion non mesuré / non controllé de la relation médiateur/outcome <br>
+      3- Pas de facteur de confusion non mesuré / non controllé de la relation exposition/médiateur <br>
+      4- Pas de facteur de confusion de la relation médiateur/outcome qui soit une conséquence de l'exposition <br>
+      De plus: Positivité et consistence"
+      
+      if("CDE" %in% AEstimer){
+        Hyp <- paste(Hyp, "<br> <br> Pour l'effet direct controllé et la proportion éliminée, seules les deux premières hypothèses (ainsi que la positivité et la consistence) sont nécéssaires.")
+      }
+      
+      Hyp <- paste(Hyp, "<br> <br> <b> Vérification de ces hypothèses dans vos données :</b>")
+      
+      # Facteurs de confusion non mesurés
+      if(input$ConfuNonMesureMed=="Oui"){
+        Hyp <- paste(Hyp, "<br> <br> Vous avez indiqué que certains facteur de confusion sont non-mesurés dans vos données. Vous pouvez effectuer une analyse de sensibilité pour estimer à quel points vos résultats sont sensibles à ces facteurs non mesurés.")
+      }
+      else{
+        Hyp <- paste(Hyp, "<br> <br> Vous avez indiqué n'avoir aucun facteur de confusion non-mesuré dans vos données. Si vous ajustez bien selon tous les facteurs de confusion, les hypothèses 1,2 et 3 sont donc vérifiées. 
+                     Cependant, réfléchissez-y bien car il semble peu probable de n'avoir aucun facteur de confusion non mesuré en épidémiologie sociale. <br>
+                     Si vous pensez finalement qu'il est possible que vous en ayez, vous pouvez effectuer une analyse de sensibilité pour estimer à quel points vos résultats sont sensibles à ces facteurs non mesurés.")
+      }
+      
+      # Verif hypothèse 4: cas non valide
+      if(input$ConfuInfluence=="Oui"){
+        Hyp <- paste(Hyp, "<br> <br> Vous avez indiqué qu'au-moins un des facteurs de confusion de la relation médiateur/outcome était influencé par l'exposition. L'hypothèse 4 est donc violée.")
+        
+        if(input$ShortTime=="Oui"){
+          Hyp <- paste(Hyp, "<br> Cependant le temps entre l'observation de l'exposition et celle du médiateur est court, 
+                il est donc possible de faire l'hypothèse que le médiateur n'a pas le temps d'être influencé par ce facteur de confusion suite à l'exposition. Dans ce cas, l'hypothèse 4 peut être considérée comme non violée")
+        }
+        else if(input$add_hyp_cond=="Oui"){
+          Hyp <- paste(Hyp, "<br> Selon vous, conditionnellement à l’exposition, le médiateur et le facteur de confusion intermédiaire, il n’y a pas de facteur de confusion non mesuré de la relation médiateur-outcome.
+                       Via les méthodes indiquées ci-dessus, vous pouvez tout de même estimer des effets causaux, mais ce seront des effets interventionnels randomisés et non pas des effets conditionnels ou marginaux, leur interprétation sera donc un peu différente.")
+        }
+        else{
+          Hyp <- paste(Hyp, "<br> <br> D'après vos réponses, l'hypothèse 4 n'est pas vérifiée. Si vous faite l'analyse, <b> vos résultats seront certainement biaisés </b>.")
+        }
+      }
+      
+      # Verif hypothèse 4: cas valide
+      else{
+        Hyp <- paste(Hyp, "<br> <br> Vous avez indiqué qu'aucun facteur de confusion de la relation médiateur/outcome n'était influencé par l'exposition. L'hypothèse 4 est donc vérifiée.")
+      }
+    }
+    
+    # Cas où l'on estime que l'effet direct controllé ou la proportion éliminée
+    else{
+      Hyp <- "1- Pas de facteur de confusion non mesuré / non controllé de la relation exposition/outcome <br>
+      2- Pas de facteur de confusion non mesuré / non controllé de la relation médiateur/outcome <br>
+      De plus: Positivité et consistence"
+      Hyp <- paste(Hyp, "<br> <br> <b> Vérification de ces hypothèses dans vos données :</b>")
+      
+      # Verif hyp 1 et 2
+      if(input$ConfuNonMesureMed=="Oui"){
+        Hyp <- paste(Hyp, "<br> <br> Vous avez indiqué que certains facteur de confusion sont non-mesurés dans vos données. Vous pouvez effectuer une analyse de sensibilité pour estimer à quel points vos résultats sont sensibles à ces facteurs non mesurés.")
+      }
+      else{
+        Hyp <- paste(Hyp, "<br> <br> Vous avez indiqué n'avoir aucun facteur de confusion non-mesuré dans vos données. Si vous ajustez bien selon tous les facteurs de confusion, les hypothèses 1 et 2 sont donc vérifiées. 
+                     Cependant, réfléchissez-y bien car il semble peu probable de n'avoir aucun facteur de confusion non mesuré en épidémiologie sociale. <br>
+                     Si vous pensez finalement qu'il est possible que vous en ayez, vous pouvez effectuer une analyse de sensibilité pour estimer à quel points vos résultats sont sensibles à ces facteurs non mesurés.")
+      }
+    }
+    
+    # Vérif positivité
+    if(input$PosiExpMed=="Oui" | input$PosiMedMed=="Oui"){
+      Hyp <- paste(Hyp, "<br> <br> L'hypothèse de positivité est violée.")
+      if (Methode()=="Régressions"){
+        Hyp <- paste(Hyp, "<br> <b> vos résultats seront donc probablement biaisés et imprécis </b>. <br>
+                     Les régressions vont extrapoler des résultats. 
+                     Si le problème de positivité est dû au fait qu'une combinaison est impossible en théorie, les régressions extrapolent sur des combinaisons impossibles/qui n'existent pas. Si le problème est dû à l'échantillon, elles extrapolent les résultats sans avoir de données, le résultats risque donc d'être imprécis. ")
+      }
+      else{
+        Hyp<- paste(Hyp, "<br> <b> vos résultats seront donc probablement biaisés et imprécis </b>. <br>
+                      Nous recommandons, si vous souhaitez tout de même faire l'analyse de faire de la <b> g-computation </b>, 
+                    mais vous devrez rester très prudent dans l'interprétation des résultats. Si le problème de positivité est dû au fait qu'une combinaison est impossible en théorie, la g-computation extrapole sur des combinaisons impossibles/qui n'existent pas. Si le problème est dû à l'échantillon, le g-computation extrapole les résultats sans avoir de données, le résultats risque donc d'être imprécis.")
+      }
+    }
+    else if(input$PosiExpMed=="Je ne sais pas" | input$PosiMedMed=="Je ne sais pas"){
+      Hyp <- paste(Hyp, "<br> <br> Vous avez indiqué ne pas savoir s'il y a un risque que l'hypothèse de positivité soit violée. Pour en avoir une idée, vous pouvez réaliser deux tableau de contingence: un combinaison des facteurs de confusion/exposition et un combinaison des facteurs de confusion et exposition / médiateurs. Si certaines cases sont égales à 0, alors l'hypothèse de positivité est violée.")
+    }
+    else{
+      Hyp <- paste(Hyp, "<br> <br> Selon vous, l'hypothèse de positivité est vérifiée.")
+    }
+    
+    HTML(Hyp)
+  })
+  
+  ### Partie packages ###
+  output$PackagesMed <- renderUI({
+    if(Methode()=="Régressions"){
+      Pac <- "Vous pouvez faire les deux régressions avec les fonction de base de R <i>lm()</i> ou <i>glm()</i> et ensuite faire les calculs à la mains à partir des coefficients
+      <br> <br>
+      Ou vous pouvez utiliser le package <i> CMAverse </i> en choisissant la méthode <i> rb </i> (regression-based approach)"
+    }
+    
+    else{
+      Pac <- "Vous pouvez utiliser le package <i> CMAverse </i> <br>
+      Modèle structurel marginal : choisissez le modèle <i> msm </i>
+      <br> G-computation : choisissez le modèle <i> gformula </i>
+      <br> Pour une estimation plus robuste, vous pouvez utiliser la méthode TMLE (targeted maximum likelihood estimation), vous pouvez le faire en utilisant le package <i> tmle </i>
+      <br> <br> <i> Note : </i> la fonction msm n'est pas implémentée pour une exposition ou un médiateur continu"
+      if((input$TypOutcomeMed=="Binaire" | input$TypOutcomeMed=="Quantitatif")){
+        Pac <- paste(Pac, "
+                     <br> <br>  Natural effect model : Package <i> CMAverse </i> choisissez le modèle <i> ne </i> ")
+      }
+    }
+    
+    HTML(Pac)
+  })
   
 }
 

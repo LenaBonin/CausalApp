@@ -34,7 +34,7 @@ observe_events_Mediation <- function(input, output, session, currentPage, values
     values$MediateurRepMed <- input$ConfRepMed
     values$OutRepMed <- input$OutRepMed
     
-    if((input$ObjMedA1=="Oui" || input$ObjMedA2=="Oui" || input$ObjMedA3=="Oui" || input$ObjMedA2=="Oui") 
+    if((input$ObjMedA1=="Oui" || input$ObjMedA2=="Oui" || input$ObjMedA3=="Oui") 
        & (input$ObjMedB1=="Non" & input$ObjMedB2=="Non" & input$ObjMedB3=="Non" & input$ObjMedB4=="Non")){
       currentPage(ConfuMed_CDE)
     }
@@ -101,7 +101,7 @@ observe_events_Mediation <- function(input, output, session, currentPage, values
   
   #Button Prev après questions sur les colliders
   observeEvent(input$Verif_Collid_Med_Prev, {
-    if((input$ObjMedA1=="Oui" || input$ObjMedA2=="Oui" || input$ObjMedA3=="Oui" || input$ObjMedA2=="Oui") 
+    if((input$ObjMedA1=="Oui" || input$ObjMedA2=="Oui" || input$ObjMedA3=="Oui") 
        & (input$ObjMedB1=="Non" & input$ObjMedB2=="Non" & input$ObjMedB3=="Non" & input$ObjMedB4=="Non")){
       currentPage(ConfuMed_CDE)
     }
@@ -111,7 +111,7 @@ observe_events_Mediation <- function(input, output, session, currentPage, values
   #Button Next après questions sur les colliders
   observeEvent(input$Verif_Collid_Med_Next, {
     if(input$CollidExpOutMediation=="Oui" | input$CollidMedOut=="Oui"){
-      shinyalert("Supprimez les colliders", "Les colliders ne doivent pas être inclus dans le DAG. Vous ne devez pas les inclure dans votre analyse car ils biaseraient les résultats.")
+      shinyalert("Supprimez les colliders", "Les colliders peuvent apparâitre sur le DAG MAIS, vous ne devez pas les inclure dans votre analyse car ils biaseraient les résultats. Nous vous conseillons, pour la suite, de les supprimer de votre DAG afin d'être sûr de ne pas les inclure dans votre analyse")
     }
     else{
       values$CollidExpOutMediation = input$CollidExpOutMediation
@@ -216,14 +216,16 @@ observe_events_Mediation <- function(input, output, session, currentPage, values
   
   # Contraintes sur les facteurs de confusion
   output$ContraintesMed2 <- renderTable({
-    if((input$ObjMedA1=="Oui" || input$input$ObjMedA2=="Oui" || input$input$ObjMedA3=="Oui" || input$input$ObjMedA2=="Oui") 
+
+    if((input$ObjMedA1=="Oui" || input$ObjMedA2=="Oui" || input$ObjMedA3=="Oui") 
        & (input$ObjMedB1=="Non" & input$ObjMedB2=="Non" & input$ObjMedB3=="Non" & input$ObjMedB4=="Non")){
+      #On est dans le cas juste CDE, donc juste hyp 1 et 2 à vérifier donc moins de Q sur les facteurs de confusion
       data.frame("Critère" = "Facteurs de confusion non mesurés",
                  "Réponse" = input$ConfuNonMesureMed)
     }
     
     else{
-    
+      #On est dans le cas avec effets naturels et donc les 4 hyp à vérifiées -> toutes les Q sur les facteurs de confusion
       noms <- c("Facteurs de confusion non mesurés",
               "Facteur de confusion de la relation médiateur/outcome influencé par l'exposition")
       reponses <- c(input$ConfuNonMesureMed, input$ConfuInfluence)

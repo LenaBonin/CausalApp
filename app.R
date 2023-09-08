@@ -71,7 +71,7 @@ server <- function(input, output, session) {
                            
                            ##Médiation
                            Expo = "", Mediateur = "", Outcome="", 
-                           ObjMedA1 = NULL, ObjMedA2 = NULL, ObjMedA3 = NULL,
+                           ObjMedA1 = NULL, ObjMedA2 = NULL, ObjMedA3 = NULL, ObjMedA0 = NULL,
                            ObjMedB1 = NULL, ObjMedB2 = NULL, ObjMedB3 = NULL, ObjMedB4 = NULL,
                            TypExpMed = NULL, TypMediateurMed = NULL, TypOutcomeMed = NULL, EffetTotVerif = NULL, RareOutcome=NULL,
                            ExpRepMed = NULL, MediateurRepMed = NULL, OutRepMed = NULL,

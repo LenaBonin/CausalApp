@@ -21,6 +21,18 @@ function(values){
              htmlOutput("MethodeRecommandee")
            )),
     
+    column(12,
+           wellPanel(
+             h4("Hypothèses"),
+             htmlOutput("AssumptionsMed")
+           )),
+    
+    column(12,
+           wellPanel(
+             h4("Packages R"),
+             htmlOutput("PackagesMed")
+           )),
+    
     actionButton("Recommandation_Prev", "< Previous")
   )
 }

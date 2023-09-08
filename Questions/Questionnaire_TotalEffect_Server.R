@@ -70,9 +70,9 @@ observeEvent(input$Verif_Tot_Prev, {
 
 # Bouton Next après Q sur les médiateurs et colliders
 observeEvent(input$Verif_Tot_Next, {
-  if (input$MedExpOutTot=="Oui" & input$CollidExpOutTot=="Oui") shinyalert("Supprimez les médiateurs et les colliders", "Les colliders ne doivent pas être inclus dans le DAG. De plus, pour estimer un effet total il n'est pas nécessaire de faire apparaître des médiateurs.\n  Vous ne devez pas inclure ces deux types de variables dans votre analyse car elles biaseraient les résultats.")
-  else if(input$MedExpOutTot=="Oui") shinyalert("Supprimez les médiateurs", "Pour un effet total il n'est pas nécessaire de faire apparaître des médiateurs sur votre DAG. Vous ne devez pas les inclure dans votre analyse car ils biaseraient les résultats.")
-  else if (input$CollidExpOutTot=="Oui") shinyalert("Supprimez les colliders", "Les colliders ne doivent pas être inclus dans le DAG. Vous ne devez pas les inclure dans votre analyse car ils biaseraient les résultats.")
+  if (input$MedExpOutTot=="Oui" & input$CollidExpOutTot=="Oui") shinyalert("Supprimez les médiateurs et les colliders", "Pour estimer un effet total il n'est pas nécessaire de faire apparaître des médiateurs.\n  Vous ne devez inclure ni les médiateurs, ni les colliders dans votre analyse car elles biaseraient les résultats, nous vous conseillons donc de les supprimer de votr DAG pour la suite.")
+  else if(input$MedExpOutTot=="Oui") shinyalert("Supprimez les médiateurs", "Pour un effet total il n'est pas nécessaire de faire apparaître des médiateurs sur votre DAG. Vous ne devez pas les inclure dans votre analyse car ils biaseraient les résultats, nous vous conseillons donc de les supprimer de votre DAG pour la suite.")
+  else if (input$CollidExpOutTot=="Oui") shinyalert("Supprimez les colliders", "Les colliders peuvent apparâitre sur le DAG MAIS, vous ne devez pas les inclure dans votre analyse car ils biaseraient les résultats. Nous vous conseillons, pour la suite, de les supprimer de votre DAG afin d'être sûr de ne pas les inclure dans votre analyse")
   else{
     values$MedExpOutTot <- input$MedExpOutTot
     values$CollidExpOutTot <- input$CollidExpOutTot
