@@ -1,12 +1,14 @@
 function(values){
   div(class = 'container',
+      p("Dans l'exemple d'objectif précédent ('étudier l'effet du tabac comme intermédiaire dans la relation entre la classe sociale et la motalité'), nous vous proposons de remplacer les variables par les votres."),
+      p(" Si vous ne rentrez rien, les termes 'exposition', 'variable intermédiaire' et 'outcome' seront utilisés par la suite."),
       textAreaInput(
         inputId = "Expo",
         label = "Par quelle variable souhaitez-vous remplacer 'la classe sociale', i.e, quelle est votre variable d'exposition ?",
         value = "",
         width = '100%',
         height = '1000%',
-        placeholder = "Le niveau d'éducation"
+        placeholder = "La classe sociale"
       ),
       
       textAreaInput(
@@ -15,7 +17,7 @@ function(values){
         value = "",
         width = '100%',
         height = '1000%',
-        placeholder = "Le revenu"
+        placeholder = "Le tabac"
       ),
       
       textAreaInput(
@@ -24,7 +26,7 @@ function(values){
         value = "",
         width = '100%',
         height = '1000%',
-        placeholder = "Le risque de cancer"
+        placeholder = "La mortalité"
       ),
       br(),
       actionButton("EndObj2Prev", "< Previous"),

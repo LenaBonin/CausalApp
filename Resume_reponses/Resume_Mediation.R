@@ -3,7 +3,7 @@ function(values){
     h3("Veuillez vérifier que les informations fournies sont exactes"),
     column(12,
            wellPanel(
-             h4("Objectif"),
+             h4("Objectif(s)"),
              htmlOutput("ObjectifResumeMed")
            )),
     

@@ -1,19 +1,19 @@
 ### Ce fichier contient les élément de la fonction serveur qui concernent les questions pour estimer un effet total ###
 
 observe_events_TotalEffect <- function (input, output, session, currentPage, values){
-# Bouton Prev après les Q sur le message que lon rentre dans les effets totaux
-observeEvent(input$Mtot_Prev, {
-  currentPage(Q1)
-})
-
-# Bouton Next après les Q sur le message que lon rentre dans les effets totaux
-observeEvent(input$Mtot_Next, {
-  currentPage(VarTot)
-})
+# # Bouton Prev après les Q sur le message que lon rentre dans les effets totaux
+# observeEvent(input$Mtot_Prev, {
+#   currentPage(Q1)
+# })
+# 
+# # Bouton Next après les Q sur le message que lon rentre dans les effets totaux
+# observeEvent(input$Mtot_Next, {
+#   currentPage(VarTot)
+# })
 
 # Bouton Prev après les Q sur les variables
 observeEvent(input$Var_Tot_Prev, {
-  currentPage(MTot)
+  currentPage(Q1)
 })
 
 # Bouton Next après les Q sur les variables

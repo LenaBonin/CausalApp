@@ -24,7 +24,7 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
     if(PropMediated==T) NIE <- TotalEffect <- T  # On a besoin de ces mesures pour calculer PropMediated
     if(PropEliminated==T) CDE <- TotalEffect <- T # On a besoin de ces mesures pour calculer PropEliminated
     
-    if(input$InterractionExpMed=="Oui" & (NDE==T | NIE==T)){
+    if(input$InteractionExpMed=="Oui" & (NDE==T | NIE==T)){
       # On isole le terme d'interaction
       MIE = T
       
@@ -45,11 +45,11 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
         TNIE <- F
       }
     }
-    else if(input$InterractionExpMed=="Non" & (NDE==T | NIE==T)){
+    else if(input$InteractionExpMed=="Non" & (NDE==T | NIE==T)){
       # On n'isole pas le terme d'interaction
       MIE = F
       
-      if(input$InterractionDirIndir=="Direct"){
+      if(input$InteractionDirIndir=="Direct"){
         if(NDE==T){
           TNDE <- T
           PNDE <- F
@@ -61,7 +61,7 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
         }
         else{PNIE <- TNIE <- F}
       }
-      else{ # input$InterractionDirIndir ="Indirect"
+      else{ # input$InteractionDirIndir ="Indirect"
         if(NDE==T){
           PNDE <- T
           TNDE <- F

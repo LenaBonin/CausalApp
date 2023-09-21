@@ -2,13 +2,13 @@ function(values){
   
   div(class = 'container',
       h3("Type des variables"),
-      radioButtons("TypExpMed", paste("Quelle est la nature de votre variable d'exposition", values$Expo, "? "), 
+      radioButtons("TypExpMed", HTML(paste("Quelle est la nature de votre variable d'exposition <i>", values$Expo, "</i>? ")), 
                    choices = c("Quantitative", "Binaire", "Ordinale", "Nominale", "J'en ai plusieurs"), 
                    selected = values$TypExpMed),
       
       
       br(), 
-      radioButtons("TypOutcomeMed", paste("Quelle est la nature de votre outcome", values$Outcome, "?"), 
+      radioButtons("TypOutcomeMed", HTML(paste("Quelle est la nature de votre outcome <i>", values$Outcome, "</i>?")), 
                    choices = c("Quantitatif", "Binaire", "Ordinal", "Nominal", "Survie / Time-to-event", "J'en ai plusieurs"),
                    selected = values$TypOutcomeMed),
       
@@ -24,12 +24,12 @@ function(values){
       ),
       
       br(),
-      radioButtons("EffetTotVerif", "Avez-vous déjà tester l'effet total de l'exposition sur l'outcome ?", 
+      radioButtons("EffetTotVerif", "Avez-vous déjà testé l'effet total de l'exposition sur l'outcome ?", 
                    choices = c("Oui avec mes données", "Non mais cela a été fait dans la littérature", "Non"), 
                    selected = values$EffetTotVerif),
       
       br(),
-      radioButtons("TypMediateurMed", paste("Quelle est la nature de votre facteur intermédiaire", values$Mediateur, "? "), 
+      radioButtons("TypMediateurMed", HTML(paste("Quelle est la nature de votre facteur intermédiaire <i>", values$Mediateur, "</i>? ")), 
                    choices = c("Quantitatif", "Binaire", "Ordinal", "Nominal", "J'en ai plusieurs"), 
                    selected = values$TypMediateurMed),
 

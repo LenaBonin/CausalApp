@@ -7,7 +7,7 @@ observeEvent(input$block_prelim, {
     currentPage(Q1)
   }
   else{ # If no DAG, display pop up 
-    shinyalert("No DAG", "This app assumed that you have already drown a DAG. If you need help with this step you can read ...", type = "error")
+    shinyalert("No DAG", "Cette application suppose que vous avez déjà réalisé votre DAG. Si ce n'est pas le cas, dessinez-en un avant de commencer. Si vous avez besoin d'aide, vous trouverez des références dans la section 'Ressources'.", type = "error")
   }
 })
 
@@ -22,7 +22,7 @@ observeEvent(input$EndObj1Next, {
     currentPage(Q2)
   }
   else if(input$question1=="Oui" & input$question2=="Non"){
-    currentPage(MTot)
+    currentPage(VarTot)
   } 
   
 })
@@ -71,7 +71,7 @@ observeEvent(input$MedB_Next, {
   values$ObjMedB4 <- input$ObjMedB4
   if(values$ObjMedA1=="Non" & values$ObjMedA2=="Non" & values$ObjMedA3=="Non" & values$ObjMedB1=="Non" & values$ObjMedB2=="Non" & values$ObjMedB3=="Non" & values$ObjMedB4=="Non"){
     shinyalert("Objectif non défini", "Il semble que votre question de recherche de corresponde pas à une analyse de médiation. Assurez-vous qu'aucun des objectifs proposés ne se rapproche du votre. \n
-               Sinon, peut-être votre facteur intermédiaire n'est-il pas d'intérêt, dans ce cas considérer seulement une analyse d'effet causal.")
+               Sinon, votre facteur intermédiaire n'est peut-être pas d'intérêt pour votre problématique, dans ce cas considérez seulement une analyse d'effet causal.")
     
     currentPage(Q1)
   }
@@ -86,8 +86,8 @@ observeEvent(input$MedB_Next, {
 
 # Texte questions médiation A
 output$QMedA0 <- renderText({
-  paste("Intervenir sur la variable intermédiaire", input$Mediateur, "pour mitiger/renforcer l'effet de l'exposition", input$Expo,
-        "sur l'outcome", input$Outcome)
+  paste("<b> Intervenir sur la variable intermédiaire <i>", input$Mediateur, " </i> pour mitiger/renforcer l'effet de l'exposition <i>", input$Expo,
+        "</i> sur l'outcome <i>", input$Outcome, "</i> </b>")
 })
 
 output$QMedA1 <- renderText({
@@ -105,7 +105,7 @@ output$QMedA2 <- renderText({
 })
 
 output$QMedA3 <- renderText({
-  paste("<b> Quel est la part de l’effet de  ",  ifelse(input$Expo=="", "l'exposition", input$Expo),
+  paste("<b> Quelle est la part de l’effet de  ",  ifelse(input$Expo=="", "l'exposition", input$Expo),
         "sur", ifelse(input$Outcome=="", "l'outcome", input$Outcome),
         "qui pourrait être éliminée en supprimant",
         ifelse(input$Mediateur=="", "le facteur intermédiaire", input$Mediateur),

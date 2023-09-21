@@ -2,11 +2,16 @@ library(shiny)
 library(shinyjs)
 library(shinyalert)
 library(tidyverse)
+library(bibtex)
+library(RefManageR)
 
 source("Questions\\Questionnaire_Obj_UI.R")
 source("Questions\\Questionnaire_TotalEffect_UI.R")
 source("Questions\\Questionnaire_Mediation_UI.R")
 source("Recommandations\\Recommandations_UI.R")
+
+# Chargement des fichiers biblio
+bib <- read.bib("Biblio\\biblio_practicalMediation.bib")
 
 
 ui <- fluidPage(
@@ -79,7 +84,7 @@ server <- function(input, output, session) {
                            ShortTime = NULL, add_hyp_cond = NULL,
                            CollidExpOutMediation = NULL, CollidMedOut = NULL,
                            PosiExpMed = NULL, PosiMedMed = NULL,
-                           InterractionExpMed = NULL, InterractionDirIndir = NULL
+                           InteractionExpMed = NULL, InteractionDirIndir = NULL
                            )
   
   # Estimands <- reactiveValues(TotalEffect = !is.null(values$question1) & values$question1=="Oui",
@@ -115,6 +120,10 @@ server <- function(input, output, session) {
   observe_events_Recommandations(input, output, session, currentPage, values)
   source("Recommandations\\Recommandations_TotalEffect_Server.R")
   observe_events_Recommandations_Tot(input, output, session, currentPage, values)
+  
+  output$biblioAffichee <- renderPrint({
+    print(bib)
+  })
   
 }
 

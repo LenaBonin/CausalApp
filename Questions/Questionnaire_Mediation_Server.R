@@ -79,7 +79,7 @@ observe_events_Mediation <- function(input, output, session, currentPage, values
       values$ConfuNonMesureMed= input$ConfuNonMesureMed
       values$ConfuInfluence = input$ConfuInfluence
       values$ShortTime = input$ShortTime
-      values$values$add_hyp_cond = input$add_hyp_cond
+      values$add_hyp_cond = input$add_hyp_cond
       currentPage(CollidMed)
     }
   })
@@ -111,7 +111,8 @@ observe_events_Mediation <- function(input, output, session, currentPage, values
   #Button Next après questions sur les colliders
   observeEvent(input$Verif_Collid_Med_Next, {
     if(input$CollidExpOutMediation=="Oui" | input$CollidMedOut=="Oui"){
-      shinyalert("Supprimez les colliders", "Les colliders peuvent apparâitre sur le DAG MAIS, vous ne devez pas les inclure dans votre analyse car ils biaseraient les résultats. Nous vous conseillons, pour la suite, de les supprimer de votre DAG afin d'être sûr de ne pas les inclure dans votre analyse")
+      shinyalert("Supprimez les colliders", "Les colliders peuvent apparâitre sur le DAG MAIS, vous ne devez pas les inclure dans votre analyse car ils biaseraient les résultats. Nous vous conseillons, pour la suite, de les supprimer de votre DAG afin d'être sûr de ne pas les inclure dans votre analyse \n 
+                 Pour passer à la suite cochez 'Non'")
     }
     else{
       values$CollidExpOutMediation = input$CollidExpOutMediation
@@ -129,24 +130,24 @@ observe_events_Mediation <- function(input, output, session, currentPage, values
   observeEvent(input$Posi_Med_Next, {
     values$PosiExpMed <- input$PosiExpMed
     values$PosiMedMed <- input$PosiMedMed
-    currentPage(InterractionMed)
+    currentPage(InteractionMed)
   })
   
-  #Button Prev après questions sur l'interraction
-  observeEvent(input$Interraction_Med_Prev, {
+  #Button Prev après questions sur l'interaction
+  observeEvent(input$Interaction_Med_Prev, {
     currentPage(PositiviteMed)
   })
   
-  #Button Next après questions sur l'interraction
-  observeEvent(input$Interraction_Med_Next, {
-    values$InterractionExpMed <- input$InterractionExpMed
-    values$InterractionDirIndir <- input$InterractionDirIndir
+  #Button Next après questions sur l'interaction
+  observeEvent(input$Interaction_Med_Next, {
+    values$InteractionExpMed <- input$InteractionExpMed
+    values$InteractionDirIndir <- input$InteractionDirIndir
     currentPage(ResumeMed)
   })
   
   #Button Prev après résumé des réponses
   observeEvent(input$Resume_Med_Prev, {
-    currentPage(InterractionMed)
+    currentPage(InteractionMed)
   })
   
   #Button Valider après résumé des réponses
@@ -157,47 +158,48 @@ observe_events_Mediation <- function(input, output, session, currentPage, values
   ### Texte questions confusion ###
 
   output$QconfusionExpOutMed <- renderText({
-    paste("<b> Pensez-bien à tous les facteurs de confusion potentiels entre ", ifelse(input$Expo=="", "l'exposition", input$Expo), "et", ifelse(input$Outcome=="", "l'outcome", input$Outcome),"</b>,
+    paste("<b> Pensez-bien à tous les facteurs de confusion potentiels entre l'exposition <i>", ifelse(input$Expo=="", "", input$Expo), "</i> et l'outcome <i>", ifelse(input$Outcome=="", "", input$Outcome),"</i> </b>,
         i.e. toutes les variables qui affectent à la fois", ifelse(input$Expo=="", "l'exposition", input$Expo), "et", ifelse(input$Outcome=="", "l'outcome", input$Outcome),"<br>")}) 
   
   output$QconfusionExpMedMed <- renderText({
-    paste("<b> Pensez-bien à tous les facteurs de confusion potentiels entre ", ifelse(input$Expo=="", "l'exposition", input$Expo), "et", ifelse(input$Mediateur=="", "le médiateur", input$Mediateur),"</b>,
+    paste("<b> Pensez-bien à tous les facteurs de confusion potentiels entre l'exposition <i>", ifelse(input$Expo=="", "", input$Expo), "</i> et le facteur intermédiaire <i>", ifelse(input$Mediateur=="", "", input$Mediateur),"</i> </b>,
         i.e. toutes les variables qui affectent à la fois", ifelse(input$Expo=="", "l'exposition", input$Expo), "et", ifelse(input$Mediateur=="", "le facteur intermédiaire", input$Mediateur),"<br>")}) 
   
   output$QconfusionMedOutMed <- renderText({
-    paste("<b> Pensez-bien à tous les facteurs de confusion potentiels entre
-    ", ifelse(input$Mediateur=="", "le médiateur", input$Mediateur), "et", ifelse(input$Outcome=="", "l'outcome", input$Outcome),"</b>,
+    paste("<b> Pensez-bien à tous les facteurs de confusion potentiels entre le facteur intermédiaire <i>
+    ", ifelse(input$Mediateur=="", "", input$Mediateur), "</i> et l'outcome <i>", ifelse(input$Outcome=="", "", input$Outcome),"</i> </b>,
         i.e. toutes les variables qui affectent à la fois", ifelse(input$Mediateur=="", "le facteur intermédiaire", input$Mediateur), "et", ifelse(input$Outcome=="", "l'outcome", input$Outcome),"<br>")}) 
   
   output$ConfuInfluence <- renderText({
-    paste("<b> Au moins un des facteurs de confusion entre ", ifelse(input$Mediateur=="", "le médiateur", input$Mediateur), "et", ifelse(input$Outcome=="", "l'outcome", input$Outcome),
-    "est-il influencé par", ifelse(input$Expo=="", "l'exposition", input$Expo),"</b>")}) 
+    paste("<b> Au moins un des facteurs de confusion entre le facteur intermédiaire <i>", input$Mediateur, "</i> et l'outcome <i>", input$Outcome,
+    "</i> est-il influencé par l'exposition <i>", input$Expo,"</i> </b>,
+    i.e. y a-t-il de la confusion intermédiaire ?")}) 
   
   ### Texte pour faire penser aux colliders ###
   output$QCollidExpOutMediation <- renderText({
     paste("<b> Votre graphe contient-il des variables qui sont influencées à la fois par ", ifelse(input$Expo=="", "l'exposition", input$Expo), "et par", ifelse(input$Outcome=="", "l'outcome", input$Outcome),"</b>,
-        i.e. contient-il des colliders entre l'exposition et l'outcome")})
+        i.e. contient-il des colliders entre l'exposition et l'outcome ?")})
   
   output$QCollidMedOut <- renderText({
     paste("<b> Votre graphe contient-il des variables qui sont influencées à la fois par ", ifelse(input$Mediateur=="", "le facteur intermédiaire", input$Mediateur), "et par", ifelse(input$Outcome=="", "l'outcome", input$Outcome),"</b>,
-        i.e. contient-il des colliders entre le médiateur et l'outcome")})
+        i.e. contient-il des colliders entre le médiateur et l'outcome ?")})
   
   ### Texte pour question sur la positivité de l'exposition ###
   output$QPosiExpMed <- renderText({
-    "<b> Suspectez-vous que certaines combinaisons des facteurs de confusions correspondent uniquement à des individus exposés/non-exposés, </b>
+    "<b> Suspectez-vous que certaines combinaisons des facteurs de confusion correspondent uniquement à des individus exposés/non-exposés, </b>
           i.e Y a-t-il des individus qui ne peuvent pas être exposés/non-exposés de part leurs caractéristiques ?"
   })
   
   ### Texte pour question sur la positivité du médiateur ###
   output$QPosiMedMed <- renderText({
-    paste("<b> Suspectez-vous que certaines combinaisons des facteurs de confusions et de l'exposition conduisent systématiquement à la même valeur (ou à certaines valeurs) du facteur intermédiaire, </b> <br> 
+    paste("<b> Suspectez-vous que certaines combinaisons des facteurs de confusion et de l'exposition conduisent systématiquement à la même valeur (ou à certaines valeurs) du facteur intermédiaire, </b> <br> 
           i.e Y a-t-il des individus qui ne peuvent pas prendre certaines valeurs", ifelse(input$Mediateur=="", "du facteur intermédiaire", paste("de", input$Mediateur)), "de part leurs caractéristiques et leur", ifelse(input$Expo=="", "exposition", paste("valeur de", input$Expo)) ,"?")
   })
   
   ### Texte pour le terme d'interraction ###
   output$QInterractionExpMed <- renderText({
-    paste("<b> Souhaitez-vous isoler l'éventuelle interraction entre ", ifelse(input$Expo=="", "l'exposition", input$Expo), "et par", ifelse(input$Mediateur=="", "le facteur intermédiaire", input$Mediateur),", </b> <br>
-        i.e. s'il y a une interraction entre l'exposition et le médiateur, souhaitez-vous la faire ressortir dans un terme à part ?")})
+    paste("<b> Souhaitez-vous isoler l'éventuelle interraction entre ", ifelse(input$Expo=="", "l'exposition", input$Expo), "et", ifelse(input$Mediateur=="", "le facteur intermédiaire", input$Mediateur),", </b> <br>
+        i.e. s'il y a une interaction entre l'exposition et le facteur intermédiaire, souhaitez-vous la faire ressortir dans un terme à part ?")})
   
   ###### Partie résumé des réponses #####
   output$VariableTypeMed <- renderTable({
@@ -254,10 +256,10 @@ observe_events_Mediation <- function(input, output, session, currentPage, values
   # Terme d'interaction
   output$InteractionMed <- renderTable({
     noms <- "Terme d'interaction isolé"
-    reponses <- input$InterractionExpMed
-    if(input$InterractionExpMed=="Non"){
-      noms <- c(noms, "Interaction inclus dans")
-      reponses <- c(reponses, paste("Effet", input$InterractionDirIndir))
+    reponses <- input$InteractionExpMed
+    if(input$InteractionExpMed=="Non"){
+      noms <- c(noms, "Interaction incluse dans")
+      reponses <- c(reponses, paste("Effet", input$InteractionDirIndir))
     }
     data.frame("Critère" = noms,
                "Réponse" = reponses)
