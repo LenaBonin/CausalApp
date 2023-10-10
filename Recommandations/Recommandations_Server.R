@@ -81,17 +81,47 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
       Effet = c("Effet total", "Effet direct controlé", "Proportion éliminée", "Effet naturel direct pur", "Effet naturel direct total",
                 "Effet naturel indirect pur", "Effet naturel indirect total", "Proportion médiée", "Mediated interactive effect"),
       Abbreviation = c("TE", "CDE", "PropEliminated", "PNDE", "TNDE", "PNIE", "TNIE", "PropMediated", "MIE"),
-      Estimation = c(TotalEffect, CDE, PropEliminated, PNDE, TNDE, PNIE, TNIE, PropMediated, MIE)
+      Estimation = c(TotalEffect, CDE, PropEliminated, PNDE, TNDE, PNIE, TNIE, PropMediated, MIE),
+      Objectifs = c("Effet de l'exposition sur l'outcome",
+                    "Effet de l'exposition sur l'outcome après la mise en place d'une intervention qui affecte le facteur intermédiaire \n
+                    Effet de l'exposition sur l'outcome si on supprimait complètement le facteur intermédiaire",
+                    "Part de l'effet de l'exposition sur l'outcome qui pourrait être éliminée en supprimant le facteur intermédiaire pour tous les individus",
+                    "Effet de l'exposition sur l'outcome qui passe par le facteur intermédiaire",
+                    "Effet de l'exposition sur l'outcome qui passe par le facteur intermédiaire",
+                    "Effet de l'exposition sur l'outcome qui ne passe pas par le facteur intermédiaire",
+                    "Effet de l'exposition sur l'outcome qui ne passe pas par le facteur intermédiaire",
+                    "Part de l'effet de l'exposition sur l'outcome qui est due à l'effet de l'exposition sur le facteur intermédiaire",
+                    "")
     ) 
     
   })
   
   # Output de la section Estimand
-  output$Estimands <- renderTable({
+  output$Estimands <- renderDT({
+    # Note: on utilise renderDT pour pouvoir afficher les retours à la lignes dans la colonnes "objectifs"
+    # Comme je veux afficher un tableau simple sans toutes les options proposées par renderDT, je les supprime en les mettant FALSE
     
-    Estimands()%>% 
+    Estimands <- Estimands() %>% 
       dplyr::filter(Estimation==T) %>%  # On filtre les effets qui sont à estimer
-      dplyr::select((-Estimation)) 
+      dplyr::select((-Estimation))
+    
+    datatable(Estimands, escape = FALSE, rownames = FALSE, options = list(paging = F,
+                                                        searching=F,
+                                                        info=F,
+                                                        ordering = F,
+                                                        columnDefs = list(list(
+      targets = "_all",
+      render = JS(
+        "function(data, type, row, meta) {",
+        "  if(type === 'display') {",
+        "    return data.replace(/\\n/g, '<br>');",
+        "  } else {",
+        "    return data;",
+        "  }",
+        "}"
+      )
+    ))))
+    
  })
   
   ###### PArtie Décomposition #######

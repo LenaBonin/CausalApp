@@ -4,6 +4,7 @@ library(shinyalert)
 library(tidyverse)
 library(bibtex)
 library(RefManageR)
+library(DT)
 
 source("Questions\\Questionnaire_Obj_UI.R")
 source("Questions\\Questionnaire_TotalEffect_UI.R")

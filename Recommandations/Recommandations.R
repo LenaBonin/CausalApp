@@ -6,7 +6,7 @@ function(values){
     column(12,
            wellPanel(
              h4("Estimands"),
-             tableOutput("Estimands")
+             DTOutput("Estimands")
            )),
     
     column(12,
