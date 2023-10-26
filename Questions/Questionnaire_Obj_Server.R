@@ -71,7 +71,7 @@ observeEvent(input$MedB_Next, {
   values$ObjMedB4 <- input$ObjMedB4
   if(values$ObjMedA1=="Non" & values$ObjMedA2=="Non" & values$ObjMedA3=="Non" & values$ObjMedB1=="Non" & values$ObjMedB2=="Non" & values$ObjMedB3=="Non" & values$ObjMedB4=="Non"){
     shinyalert("Objectif non défini", "Il semble que votre question de recherche de corresponde pas à une analyse de médiation. Assurez-vous qu'aucun des objectifs proposés ne se rapproche du votre. \n
-               Sinon, votre facteur intermédiaire n'est peut-être pas d'intérêt pour votre problématique, dans ce cas considérez seulement une analyse d'effet causal.")
+               Sinon, votre facteur intermédiaire n'est peut-être pas d'intérêt pour votre problématique, dans ce cas considérez seulement une analyse d'effet total.")
     
     currentPage(Q1)
   }
