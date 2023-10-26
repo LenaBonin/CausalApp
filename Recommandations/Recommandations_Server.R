@@ -216,7 +216,6 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
     Method <- Methode()
     
     # Si g-méthode, on propose les méthodes
-    print(input$TypOutcomeMed)
     if (Method=="G-méthodes"){
       if(input$TypExpMed=="Quantitative" | input$TypMediateurMed=="Quantitatif"){
         Method <- paste(Method, ": étant que votre exposition et/ou votre médiateur sont continus, le plus simple sera d'utiliser la g-computation")
@@ -375,6 +374,17 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
     
     HTML(Pac)
   })
+  
+  
+  ### Téléchargement au format pdf ###
+  output$export = downloadHandler(
+    filename = function() {"plots.pdf"},
+    content = function(file) {
+      pdf(file, onefile = TRUE)
+      grid.arrange(vals$p1,vals$p2,vals$t1) 
+      dev.off()
+    }
+  )
   
 }
 
