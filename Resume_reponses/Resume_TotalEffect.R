@@ -19,7 +19,7 @@ fluidRow(
            tableOutput("ContraintesTot")
          )),
   
-  actionButton("Resume_Tot_Prev", "< Previous"),
+  actionButton("Resume_Tot_Prev", "< Précédent"),
   actionButton("Valider_Tot", "Valider")
 )
 }

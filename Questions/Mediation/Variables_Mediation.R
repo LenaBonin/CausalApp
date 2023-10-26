@@ -34,8 +34,8 @@ function(values){
                    selected = values$TypMediateurMed),
 
       br(),
-      actionButton("Var_Med_Prev", "< Previous"),
-      actionButton("Var_Med_Next", "Next >"),
+      actionButton("Var_Med_Prev", "< Précédent"),
+      actionButton("Var_Med_Next", "Suivant >"),
       br()
   )
   

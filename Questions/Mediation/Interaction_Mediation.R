@@ -20,8 +20,8 @@ function(values){
       ),
       
       
-      actionButton("Interaction_Med_Prev", "< Previous"),
-      actionButton("Interaction_Med_Next", "Next >"),
+      actionButton("Interaction_Med_Prev", "< Précédent"),
+      actionButton("Interaction_Med_Next", "Suivant >"),
       br()
   )
 }

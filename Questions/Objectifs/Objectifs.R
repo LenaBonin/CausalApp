@@ -12,8 +12,8 @@ div(class = 'container',
                  choices = c("Oui", "Non"), 
                  selected = values$question2),
     br(),
-    actionButton("EndObj1Prev", "< Previous"),
-    actionButton("EndObj1Next", "Next >"),
+    actionButton("EndObj1Prev", "< Précédent"),
+    actionButton("EndObj1Next", "Suivant >"),
     br()
     )
 }

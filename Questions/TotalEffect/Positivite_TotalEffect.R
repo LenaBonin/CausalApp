@@ -10,8 +10,8 @@ function(values){
       
       br(),
       
-      actionButton("Posi_Tot_Prev", "< Previous"),
-      actionButton("Posi_Tot_Next", "Next >"),
+      actionButton("Posi_Tot_Prev", "< Précédent"),
+      actionButton("Posi_Tot_Next", "Suivant >"),
       br()
   )
 }

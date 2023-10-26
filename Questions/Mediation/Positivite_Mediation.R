@@ -17,8 +17,8 @@ function(values){
                    
                    br(),
                    
-                   actionButton("Posi_Med_Prev", "< Previous"),
-                   actionButton("Posi_Med_Next", "Next >"),
+                   actionButton("Posi_Med_Prev", "< Précédent"),
+                   actionButton("Posi_Med_Next", "Suivant >"),
                    br()
       )
 }

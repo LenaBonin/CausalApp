@@ -33,6 +33,6 @@ function(values){
              htmlOutput("PackagesMed")
            )),
     
-    actionButton("Recommandation_Prev", "< Previous")
+    actionButton("Recommandation_Prev", "< Précédent")
   )
 }

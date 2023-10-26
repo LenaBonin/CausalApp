@@ -14,8 +14,8 @@ function(values){
                    choices = c("Oui", "Non"),
                    selected = values$CollidMedOut),
       
-      actionButton("Verif_Collid_Med_Prev", "< Previous"),
-      actionButton("Verif_Collid_Med_Next", "Next >"),
+      actionButton("Verif_Collid_Med_Prev", "< Précédent"),
+      actionButton("Verif_Collid_Med_Next", "Suivant >"),
       br()
   )
 }

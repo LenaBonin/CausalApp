@@ -22,8 +22,8 @@ function(values){
                   choices = c("Oui", "Non"),
                   selected = values$OutRepTot),
     
-      actionButton("Repet_Tot_Prev", "< Previous"),
-      actionButton("Repet_Tot_Next", "Next >"),
+      actionButton("Repet_Tot_Prev", "< Précédent"),
+      actionButton("Repet_Tot_Next", "Suivant >"),
       br()
     )
 }

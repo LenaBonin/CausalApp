@@ -15,8 +15,8 @@ function(values){
                                            choices = c("Oui", "Non"),
                                            selected = values$OutRepMed),
                    
-      actionButton("Repet_Med_Prev", "< Previous"),
-      actionButton("Repet_Med_Next", "Next >"),
+      actionButton("Repet_Med_Prev", "< Précédent"),
+      actionButton("Repet_Med_Next", "Suivant >"),
       br()
   )
 }

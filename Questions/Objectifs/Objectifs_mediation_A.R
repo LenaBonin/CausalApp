@@ -24,8 +24,8 @@ function(values){
                    selected = values$ObjMedA3),
       
       
-      actionButton("MedA_Prev", "< Previous"),
-      actionButton("MedA_Next", "Next >")
+      actionButton("MedA_Prev", "< Précédent"),
+      actionButton("MedA_Next", "Suivant >")
       
   )
 }

@@ -29,8 +29,8 @@ function(values){
         placeholder = "La mortalité"
       ),
       br(),
-      actionButton("EndObj2Prev", "< Previous"),
-      actionButton("EndObj2Next", "Next >"),
+      actionButton("EndObj2Prev", "< Précédent"),
+      actionButton("EndObj2Next", "Suivant >"),
       br()
   )
       

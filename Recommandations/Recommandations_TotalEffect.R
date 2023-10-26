@@ -28,6 +28,6 @@ function(values){
              htmlOutput("Packages_Tot")
            )),
     
-    actionButton("Recommandation_Tot_Prev", "< Previous")
+    actionButton("Recommandation_Tot_Prev", "< Précédent")
   )
 }

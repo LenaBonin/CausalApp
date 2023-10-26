@@ -14,8 +14,8 @@ function(values){
                  choices = c("Oui", "Non"),
                  selected = values$CollidExpOutTot),
       
-      actionButton("Verif_Tot_Prev", "< Previous"),
-      actionButton("Verif_Tot_Next", "Next >"),
+      actionButton("Verif_Tot_Prev", "< Précédent"),
+      actionButton("Verif_Tot_Next", "Suivant >"),
       br()
   )
 }

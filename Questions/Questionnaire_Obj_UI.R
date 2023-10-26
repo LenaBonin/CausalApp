@@ -3,7 +3,7 @@ Qprelim <- function() {
   div(class = 'container',
       h3("Question préliminaire"),
       radioButtons("questionP", "Avez-vous dessiné un graphe acyclique dirigé (DAG) ou un schéma conceptuel ?", choices = c("Oui", "Non"), selected = "Oui"),
-      actionButton("block_prelim", "Next >"),
+      actionButton("block_prelim", "Suivant >"),
       br()
   )
 }

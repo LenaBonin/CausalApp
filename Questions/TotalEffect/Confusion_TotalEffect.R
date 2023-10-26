@@ -13,8 +13,8 @@ function(values){
                   selected = values$ConfuNonMesureTot),
     
       br(),
-      actionButton("Confu_Tot_Prev", "< Previous"),
-      actionButton("Confu_Tot_Next", "Next >"),
+      actionButton("Confu_Tot_Prev", "< Précédent"),
+      actionButton("Confu_Tot_Next", "Suivant >"),
       br()
   )
 }

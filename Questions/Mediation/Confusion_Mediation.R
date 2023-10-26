@@ -58,8 +58,8 @@ function(values){div(class = 'container',
                      
                      
                      br(),
-                     actionButton("Confu_Med_Prev", "< Previous"),
-                     actionButton("Confu_Med_Next", "Next >"),
+                     actionButton("Confu_Med_Prev", "< Précédent"),
+                     actionButton("Confu_Med_Next", "Suivant >"),
                      br()
 )
 }

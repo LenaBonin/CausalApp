@@ -31,7 +31,7 @@ function(values){
              tableOutput("InteractionMed")
            )),
     
-    actionButton("Resume_Med_Prev", "< Previous"),
+    actionButton("Resume_Med_Prev", "< Précédent"),
     actionButton("Valider_Med", "Valider")
   )
 }
