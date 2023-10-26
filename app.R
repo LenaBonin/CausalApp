@@ -2,9 +2,10 @@ library(shiny)
 library(shinyjs)
 library(shinyalert)
 library(tidyverse)
-library(bibtex)
-library(RefManageR)
+# library(bibtex)
+# library(RefManageR)
 library(DT)
+library(knitr)
 
 source("Questions\\Questionnaire_Obj_UI.R")
 source("Questions\\Questionnaire_TotalEffect_UI.R")
@@ -12,7 +13,7 @@ source("Questions\\Questionnaire_Mediation_UI.R")
 source("Recommandations\\Recommandations_UI.R")
 
 # Chargement des fichiers biblio
-bib <- read.bib("Biblio\\biblio_practicalMediation.bib")
+#bib <- read.bib("Biblio\\biblio_practicalMediation.bib")
 
 
 ui <- fluidPage(
@@ -45,6 +46,7 @@ ui <- fluidPage(
                 .navbar-default .navbar-nav > .active > a:focus,
                 .navbar-default .navbar-nav > .active > a:hover {color: white;background-color: #9c456c;}
                 .navbar-default .navbar-nav > li > a:hover {color: white ;background-color:#bc7c94; text-decoration:underline;}
+                .shiny-text-output { background: none; border: none; padding: 0; margin: 0; white-space: nowrap; }
                   ")), # Ou active color #923860
                 
                 # Tabs
@@ -122,9 +124,16 @@ server <- function(input, output, session) {
   source("Recommandations\\Recommandations_TotalEffect_Server.R")
   observe_events_Recommandations_Tot(input, output, session, currentPage, values)
   
-  output$biblioAffichee <- renderPrint({
-    print(bib)
-  })
+  # output$biblioAffichee <- renderPrint({
+  #  bib
+  #  })
+  # Ressources
+  # output$IntroCausal <- renderUI({
+  #   #HTML(markdown::markdownToHTML(knit('Ressources.md', quiet = TRUE)))
+  #   HTML('<iframe src="Ressources.html" width="100%" height="600"></iframe>')
+  #   
+  #})
+  
   
 }
 
