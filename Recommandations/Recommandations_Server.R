@@ -218,14 +218,15 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
     # Si g-méthode, on propose les méthodes
     if (Method=="G-méthodes"){
       if(input$TypExpMed=="Quantitative" | input$TypMediateurMed=="Quantitatif"){
-        Method <- paste(Method, ": étant que votre exposition et/ou votre médiateur sont continus, le plus simple sera d'utiliser la g-computation")
+        Method <- paste(Method, ": étant que votre exposition et/ou votre médiateur sont continus, le plus simple sera d'utiliser la <b>g-computation</b>")
       }
       else{
-        Method <- paste(Method, ": g-computation ou modèles structurels marginaux")
+        Method <- paste("<b>", Method, "</b>: en particulier la g-computation ou les modèles structurels marginaux
+                        <br> Pour une estimation plus robuste, vous pouvez utiliser un estimateur double robuste comme le TMLE (Targeted Maximum Likelihood Estimator)")
       }
       #Si outcome binaire ou continu on peu proposé les modèles naturel
       if (input$TypOutcomeMed=="Binaire" | input$TypOutcomeMed=="Quantitatif"){
-    Method <- paste(Method, "<br> Vous pouvez aussi utiliser les modèles à effets naturels (Natural effect models)")
+    Method <- paste(Method, "<br> <br> Vous pouvez aussi utiliser les modèles à effets naturels (Natural effect models)")
     
       } 
     }
@@ -243,7 +244,11 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
     }
     
     if(Method=="G-méthodes ou modèles mixtes (Modèles à effets fixes)"){
-      Method <- paste(Method, "<br> Nous vous conseillons de ne conserver que la dernière mesure de votre outcome et d'appliquer une g-méthode. Cela permettra de tenir compte de dynamique causale, ce que ne permettra pas un modèle mixte. Cependant, cela se fait au détriment de tenir compte des facteurs de confusion constants non mesurés. Un modèle mixte permettra de prendre en compte les effets constants non mesurés mais ne tiendras pas compte de la dynamique causale, vos résultats seront donc probablement biaisés.")
+      Method <- paste("<b>", Method, "</b> :",
+      "<br> <br> Nous vous conseillons de ne conserver que la dernière mesure de votre outcome et d'appliquer une g-méthode. Cela permettra de tenir compte de dynamique causale, ce que ne permettra pas un modèle mixte. Cependant, cela se fait au détriment de tenir compte des facteurs de confusion constants non mesurés. Un modèle mixte permettra de prendre en compte les effets constants non mesurés mais ne tiendras pas compte de la dynamique causale, vos résultats seront donc probablement biaisés.
+                      <br> Voir <a href = https://onlinelibrary.wiley.com/doi/full/10.1111/ajps.12417 target='_blank'> Imai, K., & Kim, I. S. (2019). <i>When should we use unit fixed effects regression models for causal inference with longitudinal data?. American Journal of Political Science,</i> 63(2), 467-490.</a> 
+                      <br> et <a href = https://imai.fas.harvard.edu/research/files/FEmatch-twoway.pdf target='_blank'> Imai, K., & Kim, I. S. (2021). <i>On the use of two-way fixed effects regression models for causal inference with panel data. Political Analysis,</i> 29(3), 405-415.</a> pour plus de détails.
+                      ")
     }
     
     # Probleme de non positivité évidente
