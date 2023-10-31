@@ -85,62 +85,62 @@ observeEvent(input$MedB_Next, {
 # Outcome <- reactive({ifelse(input$Outcome=="", "l'outcome", input$Outcome)})
 
 # Texte questions médiation A
-output$QMedA0 <- renderText({
-  paste("<b> Intervenir sur la variable intermédiaire <i>", input$Mediateur, " </i> pour mitiger/renforcer l'effet de l'exposition <i>", input$Expo,
-        "</i> sur l'outcome <i>", input$Outcome, "</i> </b>")
-})
+# output$QMedA0 <- renderText({
+#   paste("<b> Intervenir sur la variable intermédiaire <i>", input$Mediateur, " </i> pour mitiger/renforcer l'effet de l'exposition <i>", input$Expo,
+#         "</i> sur l'outcome <i>", input$Outcome, "</i> </b>")
+# })
 
 output$QMedA1 <- renderText({
-  paste("<b> Quel est l’effet de",  ifelse(input$Expo=="", "l'exposition", input$Expo),
+  paste("<b> Etudier l’effet de",  ifelse(input$Expo=="", "l'exposition", input$Expo),
         "sur", ifelse(input$Outcome=="", "l'outcome", input$Outcome),
         "après la mise en place d’une intervention/politique qui affecte",
-        ifelse(input$Mediateur=="", "le facteur intermédiaire", input$Mediateur), "? </b")
+        ifelse(input$Mediateur=="", "le facteur intermédiaire", input$Mediateur), " </b>")
 })
 
 output$QMedA2 <- renderText({
-  paste("<b> Quel serait l’effet de ",  ifelse(input$Expo=="", "l'exposition", input$Expo),
+  paste("<b> Etudier quel serait l’effet de ",  ifelse(input$Expo=="", "l'exposition", input$Expo),
         "sur", ifelse(input$Outcome=="", "l'outcome", input$Outcome),
         "si on supprimait complètement",
-        ifelse(input$Mediateur=="", "le facteur intermédiaire", input$Mediateur), "? </b")
+        ifelse(input$Mediateur=="", "le facteur intermédiaire", input$Mediateur), " </b>")
 })
 
 output$QMedA3 <- renderText({
-  paste("<b> Quelle est la part de l’effet de  ",  ifelse(input$Expo=="", "l'exposition", input$Expo),
+  paste("<b> Etudier la part de l’effet de  ",  ifelse(input$Expo=="", "l'exposition", input$Expo),
         "sur", ifelse(input$Outcome=="", "l'outcome", input$Outcome),
         "qui pourrait être éliminée en supprimant",
         ifelse(input$Mediateur=="", "le facteur intermédiaire", input$Mediateur),
-        "pour tous les individus ? </b")
+        "pour tous les individus </b>")
 })
 
 # Texte questions mediation B
 output$QMedB1 <- renderText({
-  paste("<b> Quel est l’effet de ",  ifelse(input$Expo=="", "l'exposition", input$Expo),
+  paste("<b> Etudier l’effet de ",  ifelse(input$Expo=="", "l'exposition", input$Expo),
         "sur", ifelse(input$Outcome=="", "l'outcome", input$Outcome),
         "qui passe par ", ifelse(input$Mediateur=="", "le facteur intermédiaire", input$Mediateur),
-         "? </b")
+         "</b>")
 })
 
 output$QMedB2 <- renderText({
-  paste("<b> Quel est l’effet de ",  ifelse(input$Expo=="", "l'exposition", input$Expo),
+  paste("<b> Etudier l’effet de ",  ifelse(input$Expo=="", "l'exposition", input$Expo),
         "sur", ifelse(input$Outcome=="", "l'outcome", input$Outcome), 
         "qui ne passe pas par ", ifelse(input$Mediateur=="", "le facteur intermédiaire", input$Mediateur),
-        "? </b")
+        "</b>")
 })
 
 output$QMedB3 <- renderText({
-  paste("<b> Quel serait l’effet de ",  ifelse(input$Expo=="", "l'exposition", input$Expo),
+  paste("<b> Etudier quel serait l’effet de ",  ifelse(input$Expo=="", "l'exposition", input$Expo),
         "sur", ifelse(input$Outcome=="", "l'outcome", input$Outcome),
         "si tous les individus avaient" ,ifelse(input$Mediateur=="", "le facteur intermédiaire", input$Mediateur),
-        "d'une catégorie de ", ifelse(input$Expo=="", "l'exposition", input$Expo), "fixée ? </b> <br>
-        e.g. Si tous les individus avait la même valeur", ifelse(input$Mediateur=="", "du facteur intermédiaire", paste("du", input$Mediateur)),
+        "d'une catégorie de ", ifelse(input$Expo=="", "l'exposition", input$Expo), "fixée </b> <br>
+        e.g. Si tous les individus avaient la même valeur", ifelse(input$Mediateur=="", "du facteur intermédiaire", paste("du", input$Mediateur)),
         "que les individus exposés")
 })
 
 output$QMedB4 <- renderText({
-  paste("<b> Quelle part de l’effet de  ",  ifelse(input$Expo=="", "l'exposition", input$Expo),
+  paste("<b> Etudier la part de l’effet de  ",  ifelse(input$Expo=="", "l'exposition", input$Expo),
         "sur", ifelse(input$Outcome=="", "l'outcome", input$Outcome),
-        "est due à l'effet de ", ifelse(input$Expo=="", "l'exposition", input$Expo), "sur",
-        ifelse(input$Mediateur=="", "le facteur intermédiaire", input$Mediateur), "? </b")
+        "qui est due à l'effet de ", ifelse(input$Expo=="", "l'exposition", input$Expo), "sur",
+        ifelse(input$Mediateur=="", "le facteur intermédiaire", input$Mediateur), "</b>")
 })
 
 

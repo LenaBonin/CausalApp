@@ -46,7 +46,7 @@ function(values){div(class = 'container',
                      ),
                      
                      conditionalPanel(
-                       condition = "input.ShortTime == 'Non'",
+                       condition = "input.ShortTime == 'Non' & input.ConfuInfluence == 'Oui'",
                        div(
                          class = "additional-question-2",
                          radioButtons("add_hyp_cond", "L'hypothèse suivante vous parait-elle crédible ? \n

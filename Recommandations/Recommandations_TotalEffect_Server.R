@@ -161,4 +161,69 @@ observe_events_Recommandations_Tot <- function(input, output, session, currentPa
     }
   )
   
+  ### Reinitialisation du questionnaire
+  observeEvent(input$Reinitialisation, {
+    showModal(modalDialog(
+      title = "Vous êtes sur le point de retourner au début du questionnaire. Vos réponses ne seront pas sauvegarder",
+      footer = tagList(actionButton("Confirme_reinitialisation", "Confirmer"),
+                       modalButton("Annuler"))
+      )
+    )
+  })
+  
+  observeEvent(input$Confirme_reinitialisation, {
+    values$question1 = NULL
+    values$question2 = NULL             
+                             
+    # Effet total                
+    values$ExpoTot = ""
+    values$OutTot = ""               
+    values$TypExpTot = NULL 
+    values$TypOutcomeTot = NULL           
+    values$ConfuTot = NULL
+    values$ConfuNonMesureTot = NULL                  
+    values$MedExpOutTot = NULL
+    values$CollidExpOutTot = NULL             
+    values$ExpRepTot = NULL
+    values$ConfRepTot = NULL
+    values$OutRepTot = NULL                        
+    values$QPosiTot = NULL
+                                    
+    ##Médiation                
+    values$Expo = "" 
+    values$Mediateur = "" 
+    values$Outcome=""                     
+    values$ObjMedA1 = NULL
+    values$ObjMedA2 = NULL
+    values$ObjMedA3 = NULL #ObjMedA0 = NULL,                      
+    values$ObjMedB1 = NULL 
+    values$ObjMedB2 = NULL 
+    values$ObjMedB3 = NULL 
+    values$ObjMedB4 = NULL                       
+    values$TypExpMed = NULL 
+    values$TypMediateurMed = NULL 
+    values$TypOutcomeMed = NULL 
+    values$EffetTotVerif = NULL 
+    values$RareOutcome=NULL                  
+    values$ExpRepMed = NULL 
+    values$MediateurRepMed = NULL 
+    values$OutRepMed = NULL                 
+    values$ConfuExpOutMed = NULL
+    values$ConfuExpMedMed = NULL 
+    values$ConfuMedOutMed = NULL 
+    values$ConfuNonMesureMed = NULL 
+    values$ConfuInfluence = NULL              
+    values$ShortTime = NULL 
+    values$add_hyp_cond = NULL          
+    values$CollidExpOutMediation = NULL 
+    values$CollidMedOut = NULL                     
+    values$PosiExpMed = NULL 
+    values$PosiMedMed = NULL                         
+    values$InteractionExpMed = NULL 
+    values$InteractionDirIndir = NULL
+    
+    removeModal()
+    currentPage("Qprelim")
+  })
+  
 }

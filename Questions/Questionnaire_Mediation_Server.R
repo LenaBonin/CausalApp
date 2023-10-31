@@ -31,7 +31,7 @@ observe_events_Mediation <- function(input, output, session, currentPage, values
   #Button Next après questions sur la répétition
   observeEvent(input$Repet_Med_Next, {
     values$ExpRepMed <- input$ExpRepMed
-    values$MediateurRepMed <- input$ConfRepMed
+    values$MediateurRepMed <- input$MediateurRepMed
     values$OutRepMed <- input$OutRepMed
     
     if((input$ObjMedA1=="Oui" || input$ObjMedA2=="Oui" || input$ObjMedA3=="Oui") 
@@ -111,7 +111,7 @@ observe_events_Mediation <- function(input, output, session, currentPage, values
   #Button Next après questions sur les colliders
   observeEvent(input$Verif_Collid_Med_Next, {
     if(input$CollidExpOutMediation=="Oui" | input$CollidMedOut=="Oui"){
-      shinyalert("Supprimez les colliders", "Les colliders peuvent apparâitre sur le DAG MAIS, vous ne devez pas les inclure dans votre analyse car ils biaseraient les résultats. Nous vous conseillons, pour la suite, de les supprimer de votre DAG afin d'être sûr de ne pas les inclure dans votre analyse \n 
+      shinyalert("Supprimez les colliders", "Les colliders peuvent apparaître sur le DAG MAIS, vous ne devez pas les inclure dans votre analyse car ils biaseraient les résultats. Nous vous conseillons, pour la suite, de les supprimer de votre DAG afin d'être sûr de ne pas les inclure dans votre analyse \n 
                  Pour passer à la suite cochez 'Non'")
     }
     else{

@@ -9,7 +9,7 @@ function(values){
       textAreaInput(
         inputId = "ExpoTot",
         label = "Quel est le nom de cette variable ?",
-        value = "",
+        value = values$ExpoTot,
         width = '100%',
         height = '1000%',
         placeholder = "La classe sociale"
@@ -23,7 +23,7 @@ function(values){
       textAreaInput(
         inputId = "OutTot",
         label = "Quel est le nom de cette variable ?",
-        value = "",
+        value = values$OutTot,
         width = '100%',
         height = '1000%',
         placeholder = "La mortalité"

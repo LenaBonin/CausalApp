@@ -27,9 +27,9 @@ function(values){
              h4("Packages R"),
              htmlOutput("Packages_Tot")
            )),
+    
+    actionButton("Recommandation_Tot_Prev", "< Précédent"),
     downloadButton("report_tot", "Télécharger les recommandations"),
-    
-    actionButton("Recommandation_Tot_Prev", "< Précédent")
-    
+    actionButton("Reinitialisation", "Réinitialiser le questionnaire")
   )
 }

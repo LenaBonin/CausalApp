@@ -323,7 +323,7 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
       
       # Verif hypothèse 4: cas valide
       else{
-        Hyp <- paste(Hyp, "<br> <br> Vous avez indiqué qu'aucun facteur de confusion de la relation médiateur/outcome n'était influencé par l'exposition. L'hypothèse 4 est donc vérifiée.")
+        Hyp <- paste(Hyp, "<br> <br> Vous avez indiqué qu'aucun facteur de confusion de la relation médiateur/outcome n'était influencé par l'exposition. Si cela est correct, l'hypothèse 4 serait donc vérifiée.")
       }
     }
     
@@ -433,6 +433,61 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
       )
     }
   )
+  
+  # ### Reinitialisation du questionnaire
+  # observeEvent(input$Reinitialisation_Med, {
+  #   values$question1 = NULL
+  #   values$question2 = NULL             
+  #   
+  #   # Effet total                
+  #   values$ExpoTot = ""
+  #   values$OutTot = ""               
+  #   values$TypExpTot = NULL 
+  #   values$TypOutcomeTot = NULL           
+  #   values$ConfuTot = NULL
+  #   values$ConfuNonMesureTot = NULL                  
+  #   values$MedExpOutTot = NULL
+  #   values$CollidExpOutTot = NULL             
+  #   values$ExpRepTot = NULL
+  #   values$ConfRepTot = NULL
+  #   values$OutRepTot = NULL                        
+  #   values$QPosiTot = NULL
+  #   
+  #   ##Médiation                
+  #   values$Expo = "" 
+  #   values$Mediateur = "" 
+  #   values$Outcome=""                     
+  #   values$ObjMedA1 = NULL
+  #   values$ObjMedA2 = NULL
+  #   values$ObjMedA3 = NULL #ObjMedA0 = NULL,                      
+  #   values$ObjMedB1 = NULL 
+  #   values$ObjMedB2 = NULL 
+  #   values$ObjMedB3 = NULL 
+  #   values$ObjMedB4 = NULL                       
+  #   values$TypExpMed = NULL 
+  #   values$TypMediateurMed = NULL 
+  #   values$TypOutcomeMed = NULL 
+  #   values$EffetTotVerif = NULL 
+  #   values$RareOutcome=NULL                  
+  #   values$ExpRepMed = NULL 
+  #   values$MediateurRepMed = NULL 
+  #   values$OutRepMed = NULL                 
+  #   values$ConfuExpOutMed = NULL
+  #   values$ConfuExpMedMed = NULL 
+  #   values$ConfuMedOutMed = NULL 
+  #   values$ConfuNonMesureMed = NULL 
+  #   values$ConfuInfluence = NULL              
+  #   values$ShortTime = NULL 
+  #   values$add_hyp_cond = NULL          
+  #   values$CollidExpOutMediation = NULL 
+  #   values$CollidMedOut = NULL                     
+  #   values$PosiExpMed = NULL 
+  #   values$PosiMedMed = NULL                         
+  #   values$InteractionExpMed = NULL 
+  #   values$InteractionDirIndir = NULL
+  #   
+  #   currentPage("Qprelim")
+  # })
   
 }
 

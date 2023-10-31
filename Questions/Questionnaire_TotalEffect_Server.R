@@ -26,6 +26,8 @@ observeEvent(input$Var_Tot_Next, {
   else {
     values$TypExpTot <- input$TypExpTot
     values$TypOutcomeTot <- input$TypOutcomeTot
+    values$ExpoTot <- input$ExpoTot
+    values$OutTot <- input$OutTot
     currentPage(ConfusionTot)
   } 
 })
@@ -71,8 +73,8 @@ observeEvent(input$Verif_Tot_Prev, {
 # Bouton Next après Q sur les médiateurs et colliders
 observeEvent(input$Verif_Tot_Next, {
   if (input$MedExpOutTot=="Oui" & input$CollidExpOutTot=="Oui") shinyalert("Supprimez les médiateurs et les colliders", "Pour estimer un effet total il n'est pas nécessaire de faire apparaître des médiateurs.\n  Vous ne devez inclure ni les médiateurs, ni les colliders dans votre analyse car elles biaseraient les résultats, nous vous conseillons donc de les supprimer de votr DAG pour la suite.")
-  else if(input$MedExpOutTot=="Oui") shinyalert("Supprimez les médiateurs", "Pour un effet total il n'est pas nécessaire de faire apparaître des médiateurs sur votre DAG. Vous ne devez pas les inclure dans votre analyse car ils biaseraient les résultats, nous vous conseillons donc de les supprimer de votre DAG pour la suite.")
-  else if (input$CollidExpOutTot=="Oui") shinyalert("Supprimez les colliders", "Les colliders peuvent apparâitre sur le DAG MAIS, vous ne devez pas les inclure dans votre analyse car ils biaseraient les résultats. Nous vous conseillons, pour la suite, de les supprimer de votre DAG afin d'être sûr de ne pas les inclure dans votre analyse")
+  else if(input$MedExpOutTot=="Oui") shinyalert("Supprimez les médiateurs", "Pour un effet total il n'est pas nécessaire de faire apparaître des médiateurs sur votre DAG. Vous ne devez pas les inclure dans votre analyse car ils biaseraient les résultats, nous vous conseillons donc de les supprimer de votre DAG pour la suite. <br> Pour passer à la suite cochez 'Non'")
+  else if (input$CollidExpOutTot=="Oui") shinyalert("Supprimez les colliders", "Les colliders peuvent apparaître sur le DAG MAIS, vous ne devez pas les inclure dans votre analyse car ils biaseraient les résultats. Nous vous conseillons, pour la suite, de les supprimer de votre DAG afin d'être sûr de ne pas les inclure dans votre analyse. <br> Pour passer à la suite cochez 'Non'")
   else{
     values$MedExpOutTot <- input$MedExpOutTot
     values$CollidExpOutTot <- input$CollidExpOutTot
