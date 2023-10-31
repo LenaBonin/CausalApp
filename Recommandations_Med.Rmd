@@ -1,0 +1,27 @@
+---
+title: "Recommandations"
+output: html_document
+params:
+   Estimands: NA
+   Decomposition : NA
+   Methodes : NA
+   Assumptions : NA
+   Packages : NA
+
+---
+
+# Estimands
+
+`r params$Estimands`
+
+# Décomposition
+`r params$Decomposition`
+
+# Méthodes
+`r params$Methodes`
+
+# Hypothèses
+`r params$Assumptions`
+
+# Packages R
+`r params$Packages`

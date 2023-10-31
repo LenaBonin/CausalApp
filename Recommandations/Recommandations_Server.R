@@ -96,8 +96,8 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
     
   })
   
-  # Output de la section Estimand
-  output$Estimands <- renderDT({
+  # Estimands to be estimated
+  Estimands_esti <- reactive({
     # Note: on utilise renderDT pour pouvoir afficher les retours à la lignes dans la colonnes "objectifs"
     # Comme je veux afficher un tableau simple sans toutes les options proposées par renderDT, je les supprime en les mettant FALSE
     
@@ -106,42 +106,47 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
       dplyr::select((-Estimation))
     
     datatable(Estimands, escape = FALSE, rownames = FALSE, options = list(paging = F,
-                                                        searching=F,
-                                                        info=F,
-                                                        ordering = F,
-                                                        columnDefs = list(list(
-      targets = "_all",
-      render = JS(
-        "function(data, type, row, meta) {",
-        "  if(type === 'display') {",
-        "    return data.replace(/\\n/g, '<br>');",
-        "  } else {",
-        "    return data;",
-        "  }",
-        "}"
-      )
-    ))))
-    
+                                                                          searching=F,
+                                                                          info=F,
+                                                                          ordering = F,
+                                                                          columnDefs = list(list(
+                                                                            targets = "_all",
+                                                                            render = JS(
+                                                                              "function(data, type, row, meta) {",
+                                                                              "  if(type === 'display') {",
+                                                                              "    return data.replace(/\\n/g, '<br>');",
+                                                                              "  } else {",
+                                                                              "    return data;",
+                                                                              "  }",
+                                                                              "}"
+                                                                            )
+                                                                          ))))
+  })
+  
+  # Output de la section Estimand
+  output$Estimands <- renderDT({
+    Estimands_esti()
  })
   
   ###### PArtie Décomposition #######
-  output$DecompEffet <- renderUI({
+  ## Texte à afficher pour la décomposition 
+  Decomp_Fct <- reactive({
     Estimands <- Estimands() %>%
       dplyr::filter(Estimation==T)
-
+    
     AEstimer <- as.vector(Estimands$Abbreviation)
     Decomp <- ""
-
+    
     if("TNIE" %in% AEstimer | "TNDE" %in% AEstimer)
       Decomp <- "<b>2-way decomposition :</b>"
     else if("PNDE"%in%AEstimer & "PNIE"%in%AEstimer) Decomp <- "<b>3-way decomposition :</b>"
-
+    
     if("TNIE" %in% AEstimer){
       Decomp <- paste(Decomp, "$$TE = TNIE + PNDE$$")
     }
     else if("TNDE" %in% AEstimer) Decomp <- paste(Decomp, "$$TE = TNDE + PNIE$$")
     else if(Decomp=="<b>3-way decomposition :</b>") Decomp <- paste(Decomp, "$$TE = PNDE + PNIE + MIE$$")
-
+    
     if("PropEliminated" %in% AEstimer){
       Decomp <- paste(Decomp, "<br> <b>Proportion éliminée :</b> <br> <span style='margin-left: 50px;'> Echelle additive : </span> $$\\frac{TE - CDE}{TE}$$
                        <br> <span style='margin-left: 50px;'> Echelle risque relatif : </span> $$\\frac{OR^{TE} - OR^{CDE}}{OR^{TE}-1}$$")
@@ -154,21 +159,22 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
       }
       
       else{ #PNIE
-          Decomp <- paste(Decomp, "<br> <b>Proportion médiée :</b> <br> <span style='margin-left: 50px;'> Echelle additive : </span> $$\\frac{PNIE}{TE}$$")
-          #Then we must differentiate PNDE and TNDE
-          if("PNDE"%in% AEstimer){
-            Decomp <- paste(Decomp, "<br>  <span style='margin-left: 50px;'> Echelle risque relatif : </span> $$\\frac{OR^{PNDE}(OR^{PNIE}-1)}{OR^{PNDE}OR^{PNIE}-1}$$")
-          }
-          else{ #TNDE
-              Decomp <- paste(Decomp, "<br>  <span style='margin-left: 50px;'> Echelle risque relatif : </span> $$\\frac{OR^{TNDE}(OR^{PNIE}-1)}{OR^{TNDE}OR^{PNIE}-1}$$")
-          }
+        Decomp <- paste(Decomp, "<br> <b>Proportion médiée :</b> <br> <span style='margin-left: 50px;'> Echelle additive : </span> $$\\frac{PNIE}{TE}$$")
+        #Then we must differentiate PNDE and TNDE
+        if("PNDE"%in% AEstimer){
+          Decomp <- paste(Decomp, "<br>  <span style='margin-left: 50px;'> Echelle risque relatif : </span> $$\\frac{OR^{PNDE}(OR^{PNIE}-1)}{OR^{PNDE}OR^{PNIE}-1}$$")
+        }
+        else{ #TNDE
+          Decomp <- paste(Decomp, "<br>  <span style='margin-left: 50px;'> Echelle risque relatif : </span> $$\\frac{OR^{TNDE}(OR^{PNIE}-1)}{OR^{TNDE}OR^{PNIE}-1}$$")
+        }
       }
-      
     }
-    
-
+  })
+  
+  ## Output pour la décomposition
+  output$DecompEffet <- renderUI({
+    Decomp <- Decomp_Fct()
     withMathJax(HTML(Decomp))
-    #HTML(Decomp)
   })
   
   # output$DecompEffet <- renderUI({
@@ -211,8 +217,8 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
     Method
   })
   
-  # Output de la section Méthode recommandée
-  output$MethodeRecommandee <- renderUI({
+  # Fonction qui retourne le texte complet de la recommandation de la méthode
+  Method_full_txt_Med <- reactive({
     Method <- Methode()
     
     # Si g-méthode, on propose les méthodes
@@ -226,8 +232,8 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
       }
       #Si outcome binaire ou continu on peu proposé les modèles naturel
       if (input$TypOutcomeMed=="Binaire" | input$TypOutcomeMed=="Quantitatif"){
-    Method <- paste(Method, "<br> <br> Vous pouvez aussi utiliser les modèles à effets naturels (Natural effect models)")
-    
+        Method <- paste(Method, "<br> <br> Vous pouvez aussi utiliser les modèles à effets naturels (Natural effect models)")
+        
       } 
     }
     
@@ -245,7 +251,7 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
     
     if(Method=="G-méthodes ou modèles mixtes (Modèles à effets fixes)"){
       Method <- paste("<b>", Method, "</b> :",
-      "<br> <br> Nous vous conseillons de ne conserver que la dernière mesure de votre outcome et d'appliquer une g-méthode. Cela permettra de tenir compte de dynamique causale, ce que ne permettra pas un modèle mixte. Cependant, cela se fait au détriment de tenir compte des facteurs de confusion constants non mesurés. Un modèle mixte permettra de prendre en compte les effets constants non mesurés mais ne tiendras pas compte de la dynamique causale, vos résultats seront donc probablement biaisés.
+                      "<br> <br> Nous vous conseillons de ne conserver que la dernière mesure de votre outcome et d'appliquer une g-méthode. Cela permettra de tenir compte de dynamique causale, ce que ne permettra pas un modèle mixte. Cependant, cela se fait au détriment de tenir compte des facteurs de confusion constants non mesurés. Un modèle mixte permettra de prendre en compte les effets constants non mesurés mais ne tiendras pas compte de la dynamique causale, vos résultats seront donc probablement biaisés.
                       <br> Voir <a href = https://onlinelibrary.wiley.com/doi/full/10.1111/ajps.12417 target='_blank'> Imai, K., & Kim, I. S. (2019). <i>When should we use unit fixed effects regression models for causal inference with longitudinal data?. American Journal of Political Science,</i> 63(2), 467-490.</a> 
                       <br> et <a href = https://imai.fas.harvard.edu/research/files/FEmatch-twoway.pdf target='_blank'> Imai, K., & Kim, I. S. (2021). <i>On the use of two-way fixed effects regression models for causal inference with panel data. Political Analysis,</i> 29(3), 405-415.</a> pour plus de détails.
                       ")
@@ -257,13 +263,19 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
     #                   "<br> <br> L'hypothèse de positivité nécéssaire à l'analyse de médiation est violée, <b> vos résultats seront donc probablement biaisés et imprécis </b>. <br>
     #                   Nous recommandons, si vous souhaitez tout de même faire l'analyse de faire de la <b> g-computation </b>, mais vous devrez rester très prudent dans l'interprétation des résultats. Si le problème de positivité est dû au fait qu'une combinaison est impossible en théorie, la g-computation extrapole sur des combinaisons impossibles. Si le problème est dû à l'échantillon, le g-computation extrapole les résultats sans avoir de données, le résultats risque donc d'être imprécis.")
     # }
+  })
+  
+  
+  ## Output de la section Méthode recommandée
+  output$MethodeRecommandee <- renderUI({
+    Method <- Method_full_txt_Med()
     HTML(Method)
-    
   })
   
   
   ### Assumptions ###
-  output$AssumptionsMed <- renderUI({
+  ## texte à afficher pour les hypothèses 
+  Assumptions_Med_Fct <- reactive({
     Estimands <- Estimands() %>%
       dplyr::filter(Estimation==T)
     AEstimer <- as.vector(Estimands$Abbreviation)
@@ -353,12 +365,17 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
     else{
       Hyp <- paste(Hyp, "<br> <br> Selon vous, l'hypothèse de positivité est vérifiée.")
     }
-    
+  })
+  
+  ## Output pour les hypothèses
+  output$AssumptionsMed <- renderUI({
+    Hyp <- Assumptions_Med_Fct()
     HTML(Hyp)
   })
   
   ### Partie packages ###
-  output$PackagesMed <- renderUI({
+  ## Texte à afficher pour la partie Package
+  Packages_Med_Fct <- reactive({
     if(Methode()=="Régressions"){
       Pac <- "Vous pouvez faire les deux régressions avec les fonction de base de R <i>lm()</i> ou <i>glm()</i> et ensuite faire les calculs à la mains à partir des coefficients
       <br> <br>
@@ -376,18 +393,44 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
                      <br> <br>  Natural effect model : Package <i> CMAverse </i> choisissez le modèle <i> ne </i> ")
       }
     }
-    
+  })
+  
+  ## Output de la partie Package
+  output$PackagesMed <- renderUI({
+    Pac <- Packages_Med_Fct()
     HTML(Pac)
   })
   
   
-  ### Téléchargement au format pdf ###
-  output$export = downloadHandler(
-    filename = function() {"plots.pdf"},
-    content = function(file) {
-      pdf(file, onefile = TRUE)
-      grid.arrange(vals$p1,vals$p2,vals$t1) 
-      dev.off()
+  ### Téléchargement des recommandations au format html
+  output$report_Med <- downloadHandler(
+    filename = "Recommandations.html",
+    content = function(file){
+      # Copy the report file to a temporary directory before processing it, in
+      # case we don't have write permissions to the current working dir (which
+      # can happen when deployed).
+      tempReport <- file.path(tempdir(), "Recommandations_Med.Rmd")
+      file.copy("Recommandations_Med.Rmd", tempReport, overwrite = TRUE)
+      
+      # Set up parameters to pass to Rmd document
+      Estimands <- Estimands_esti()
+      Decomp <- Decomp_Fct()
+      Method <- Method_full_txt_Med()
+      Hyp <- Assumptions_Med_Fct()
+      Pac <- Packages_Med_Fct()
+      params <- list(Estimands = Estimands, 
+                     Decomposition = withMathJax(HTML(Decomp)),
+                     Methodes = HTML(Method), 
+                     Assumptions = HTML(Hyp), 
+                     Packages = HTML(Pac))
+      
+      # Knit the document, passing in the `params` list, and eval it in a
+      # child of the global environment (this isolates the code in the document
+      # from the code in this app).
+      rmarkdown::render(tempReport, output_file = file,
+                        params = params,
+                        envir = new.env(parent = globalenv())
+      )
     }
   )
   

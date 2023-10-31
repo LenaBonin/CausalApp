@@ -33,7 +33,7 @@ function(values){
              htmlOutput("PackagesMed")
            )),
     
-    downloadButton("reportMed", "Télécharger les recommandations"),
+    downloadButton("report_Med", "Télécharger les recommandations"),
     
     actionButton("Recommandation_Prev", "< Précédent")
   )
