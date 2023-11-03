@@ -105,7 +105,7 @@ output$QMedA2 <- renderText({
 })
 
 output$QMedA3 <- renderText({
-  paste("<b> Etudier la part de l’effet de  ",  ifelse(input$Expo=="", "l'exposition", input$Expo),
+  paste("<b> Etudier la proportion de l’effet de  ",  ifelse(input$Expo=="", "l'exposition", input$Expo),
         "sur", ifelse(input$Outcome=="", "l'outcome", input$Outcome),
         "qui pourrait être éliminée en supprimant",
         ifelse(input$Mediateur=="", "le facteur intermédiaire", input$Mediateur),
@@ -137,7 +137,7 @@ output$QMedB3 <- renderText({
 })
 
 output$QMedB4 <- renderText({
-  paste("<b> Etudier la part de l’effet de  ",  ifelse(input$Expo=="", "l'exposition", input$Expo),
+  paste("<b> Etudier la proportion de l’effet de  ",  ifelse(input$Expo=="", "l'exposition", input$Expo),
         "sur", ifelse(input$Outcome=="", "l'outcome", input$Outcome),
         "qui est due à l'effet de ", ifelse(input$Expo=="", "l'exposition", input$Expo), "sur",
         ifelse(input$Mediateur=="", "le facteur intermédiaire", input$Mediateur), "</b>")
