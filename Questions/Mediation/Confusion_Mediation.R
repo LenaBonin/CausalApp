@@ -30,7 +30,7 @@ function(values){div(class = 'container',
                      
                      br(),
                      htmlOutput("ConfuInfluence"),
-                     img(src="Confusion_influencee.png", width="30%"),
+                     img(src="Confusion_intermediaire.png", width="30%"),
                      radioButtons("ConfuInfluence","",
                                   choices = c("Oui", "Non"),
                                   selected = ifelse(is.null(values$ConfuInfluence), "Non", values$ConfuInfluence)),
