@@ -22,7 +22,7 @@ function(values){
       
       textAreaInput(
         inputId = "Outcome",
-        label = "Par quelle variable souhaitez-vous remplacer 'la mortalité', i.e, quelle est votre variable d'intérêt/ outcome ?",
+        label = "Par quelle variable souhaitez-vous remplacer 'la mortalité', i.e, quelle est votre variable d'intérêt / outcome ?",
         value = values$Outcome,
         width = '100%',
         height = '1000%',

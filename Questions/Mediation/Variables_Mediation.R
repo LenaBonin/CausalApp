@@ -25,8 +25,13 @@ function(values){
       
       br(),
       radioButtons("EffetTotVerif", "Avez-vous déjà testé l'effet total de l'exposition sur l'outcome ?", 
-                   choices = c("Oui avec mes données", "Non mais cela a été fait dans la littérature", "Non"), 
+                   choiceNames = c("Oui avec mes données, il y en a un", 
+                               "Oui avec mes données, il n'y en a pas (ou non significatif), mais je souhaite tout de même faire une analyse de médiation",
+                               "Non mais cela a été fait dans la littérature", 
+                               "Non"),
+                   choiceValues = c("Oui_ok", "Oui_pb", "Non_litt", "Non"),
                    selected = values$EffetTotVerif),
+      
       
       br(),
       radioButtons("TypMediateurMed", HTML(paste("Quelle est la nature de votre facteur intermédiaire <i>", values$Mediateur, "</i>? ")), 

@@ -12,15 +12,57 @@ observe_events_Mediation <- function(input, output, session, currentPage, values
     }
     else if(input$TypExpMed == "J'en ai plusieurs") shinyalert("Exposition multiple", "Vous ne pouvez avoir qu'une seule exposition. Considérez de faire une analyse par exposition. Ou, si les expositions sont séquentielles, alors vous êtes dans le cas d'une variable intermédiaire. Dans ce cas, retournez au choix de l'objectif et modifiez votre réponse")
     else if (input$TypOutcomeMed == "J'en ai plusieurs") shinyalert("Outcome multiple", "Vous ne pouvez avoir qu'un seul outcome. Considérez de faire une analyse par outcome")
-    else if (input$EffetTotVerif=="Non") shinyalert("Effet total non vérifié", "Avant de commencer une analyse de médiation, vérifier dans un premier temps qu'il y a bien un effet total.
-                                                    \n Retournez en arrière à la question de la définition de votre objectif et sélectionnez uniquement l'effet de la classe sociale sur la mortalité.")
+    else if (input$EffetTotVerif=="Non"){
+      showModal(modalDialog(
+        title = HTML("Avant de commencer une analyse de médiation, il est conseillé de vérifier qu'il y a bien un effet de l'exposition sur l'outcome car s'il n'y en a pas, l'analyse du rôle de la variable intermédiaire n'a dans la plupart des cas pas d'intérêt. Il existe cependant des cas où l'on ne trouve pas d'effet total de l'exposition sur l'outcome mais où l'on trouve un effet de médiation. Cela arrive si l'effet qui passe par la variable intermédiaire et celui qui ne passe pas par cette variable s'annulent. Gardez tout de même en tête que ce cas est plutôt rare.
+        <br> <br> Souhaitez-vous d'abord vérifier l'effet total de l'exposition sur l'outcome (c'est-à-dire en omettant dans un premier temps l'intérêt pour votre variable intermédiaire) ou continuer directement à étudier le rôle de votre variable intermédiaire entre votre exposition et votre outcome (analyse de médiation) ?"),
+        footer = tagList(actionButton("Retour_eff_tot", "Tester l'effet total"),
+                         actionButton("Confirme_mediation", "Poursuivre sur une analyse de médiation"),
+                         modalButton("Annuler"))
+      )
+      )
+    } 
+    
+    else if (input$EffetTotVerif=="Oui_pb"){
+      showModal(modalDialog(
+        title = HTML("Dans la plupart des cas, s'il n'y a pas d'effet de  l'exposition sur l'outcome l'analyse de médiation par le facteur intermédiaire n'a pas d'intérêt. Il existe cependant des cas où l'on ne trouve pas d'effet total de l'exposition sur l'outcome mais où l'on trouve un effet de médiation. Cela arrive si l'effet qui passe par la variable intermédiaire et celui qui ne passe pas par cette variable s'annulent. Gardez tout de même en tête que ce cas est plutôt rare.
+        <br> <br> Souhaitez-vous tout-de même étudier le rôle de la variable intermédiaire entre votre exposition et votre outcome (analyse de médiation) ? "),
+        footer = tagList(actionButton("Confirme_mediation", "Poursuivre sur une analyse de médiation"),
+                         modalButton("Annuler"))
+      )
+      )
+    }
+    #shinyalert("Effet total non vérifié", "Avant de commencer une analyse de médiation, vérifier dans un premier temps qu'il y a bien un effet total.
+    #                                                \n Retournez en arrière à la question de la définition de votre objectif et sélectionnez uniquement l'effet de la classe sociale sur la mortalité.")
     else if (input$TypMediateurMed == "J'en ai plusieurs") shinyalert("Plusieurs médiateurs", "Pour le moment le cas de plusieurs médiateurs n'est pas géré par cette application") # A enlever quand on pourra le gérer
     else {
       values$TypExpMed <- input$TypExpMed
       values$TypMediateurMed <- input$TypMediateurMed
+      EffetTotVerif <- input$EffetTotVerif
       values$TypOutcomeMed <- input$TypOutcomeMed
       currentPage(RepeteMed)
     } 
+  })
+  
+  # Si la personne persiste à vouloir faire une analyse de médiation même sans effet total
+  observeEvent(input$Confirme_mediation,{
+    values$TypExpMed <- input$TypExpMed
+    values$TypMediateurMed <- input$TypMediateurMed
+    values$EffetTotVerif <- input$EffetTotVerif
+    values$TypOutcomeMed <- input$TypOutcomeMed
+    removeModal()
+    currentPage(RepeteMed)
+  })
+  
+  # Si la personne se dirige finalement sur un effet total
+  observeEvent(input$Retour_eff_tot,{
+    values$TypExpMed <- input$TypExpMed
+    values$TypMediateurMed <- input$TypMediateurMed
+    values$EffetTotVerif <- input$EffetTotVerif
+    values$TypOutcomeMed <- input$TypOutcomeMed
+    values$question2 <- "Non"
+    removeModal()
+    currentPage(Q1)
   })
   
   #Button Prev après questions sur la répétition

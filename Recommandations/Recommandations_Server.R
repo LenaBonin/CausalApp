@@ -14,10 +14,10 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
     
     PropEliminated <- !is.null(values$question2) & !is.null(values$ObjMedA3) & values$question2=="Oui" & values$ObjMedA3=="Oui"
     
-    NDE <- !is.null(values$question2) & (!is.null(values$ObjMedB1) | !is.null(values$ObjMedB3))&
-      values$question2=="Oui" & (values$ObjMedB1 == "Oui" | values$ObjMedB3=="Oui")
+    NDE <- !is.null(values$question2) & (!is.null(values$ObjMedB2) | !is.null(values$ObjMedB3))&
+      values$question2=="Oui" & (values$ObjMedB2 == "Oui" | values$ObjMedB3=="Oui")
     
-    NIE <- !is.null(values$question2) & !is.null(values$ObjMedB2) & values$question2=="Oui" & values$ObjMedB2=="Oui"
+    NIE <- !is.null(values$question2) & !is.null(values$ObjMedB1) & values$question2=="Oui" & values$ObjMedB1=="Oui"
     
     PropMediated <- !is.null(values$question2) & !is.null(values$ObjMedB4) & values$question2=="Oui" & values$ObjMedB4=="Oui"
     
@@ -86,10 +86,10 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
                     "Effet de l'exposition sur l'outcome après la mise en place d'une intervention qui affecte le facteur intermédiaire \n
                     Effet de l'exposition sur l'outcome si on supprimait complètement le facteur intermédiaire",
                     "Part de l'effet de l'exposition sur l'outcome qui pourrait être éliminée en supprimant le facteur intermédiaire pour tous les individus",
-                    "Effet de l'exposition sur l'outcome qui passe par le facteur intermédiaire",
-                    "Effet de l'exposition sur l'outcome qui passe par le facteur intermédiaire",
                     "Effet de l'exposition sur l'outcome qui ne passe pas par le facteur intermédiaire",
                     "Effet de l'exposition sur l'outcome qui ne passe pas par le facteur intermédiaire",
+                    "Effet de l'exposition sur l'outcome qui passe par le facteur intermédiaire",
+                    "Effet de l'exposition sur l'outcome qui passe par le facteur intermédiaire",
                     "Part de l'effet de l'exposition sur l'outcome qui est due à l'effet de l'exposition sur le facteur intermédiaire",
                     "")
     ) 
@@ -137,15 +137,28 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
     AEstimer <- as.vector(Estimands$Abbreviation)
     Decomp <- ""
     
-    if("TNIE" %in% AEstimer | "TNDE" %in% AEstimer)
-      Decomp <- "<b>2-way decomposition :</b>"
+    if("TNIE" %in% AEstimer | "TNDE" %in% AEstimer) Decomp <- "<b>2-way decomposition :</b>"
     else if("PNDE"%in%AEstimer & "PNIE"%in%AEstimer) Decomp <- "<b>3-way decomposition :</b>"
+    else if(("PNDE"%in%AEstimer | "PNIE"%in%AEstimer) & !("MIE"%in%AEstimer)) Decomp <- "<b>2-way decomposition :</b>"
+    else if (("PNDE"%in%AEstimer | "PNIE"%in%AEstimer) & "MIE" %in% AEstimer) Decomp <- "<b>3-way decomposition :</b>"
     
-    if("TNIE" %in% AEstimer){
+    if("TNIE" %in% AEstimer | ("PNDE" %in% AEstimer & !("MIE" %in% AEstimer))){
       Decomp <- paste(Decomp, "$$TE = TNIE + PNDE$$")
+      if(!("TNIE"%in%AEstimer)) Decomp <- paste(Decomp, "où TNIE est l'effet naturel indirect total <br> <br>")
+      else if(!("PNDE"%in%AEstimer)) Decomp <- paste(Decomp, "où PNDE est l'effet naturel direct pur <br> <br>")
     }
-    else if("TNDE" %in% AEstimer) Decomp <- paste(Decomp, "$$TE = TNDE + PNIE$$")
-    else if(Decomp=="<b>3-way decomposition :</b>") Decomp <- paste(Decomp, "$$TE = PNDE + PNIE + MIE$$")
+    
+    else if("TNDE" %in% AEstimer | ("PNIE" %in% AEstimer & !("MIE" %in% AEstimer))){
+      Decomp <- paste(Decomp, "$$TE = TNDE + PNIE$$")
+      if(!("TNDE"%in%AEstimer)) Decomp <- paste(Decomp, "où TNDE est l'effet naturel direct total <br> <br>")
+      else if(!("PNIE"%in%AEstimer)) Decomp <- paste(Decomp, "où PNIE est l'effet naturel direct pur <br> <br>")
+    } 
+    
+    else if(Decomp=="<b>3-way decomposition :</b>"){
+      Decomp <- paste(Decomp, "$$TE = PNDE + PNIE + MIE$$")
+      if(!("PNDE"%in%AEstimer)) Decomp <- paste(Decomp, "où PNDE est l'effet naturel direct pur <br> <br>")
+      else if(!("PNIE"%in%AEstimer)) Decomp <- paste(Decomp, "où PNIE est l'effet naturel direct pur <br> <br>")
+    } 
     
     if("PropEliminated" %in% AEstimer){
       Decomp <- paste(Decomp, "<br> <b>Proportion éliminée :</b> <br> <span style='margin-left: 50px;'> Echelle additive : </span> $$\\frac{TE - CDE}{TE}$$
@@ -169,6 +182,7 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
         }
       }
     }
+    Decomp
   })
   
   ## Output pour la décomposition
