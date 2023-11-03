@@ -9,17 +9,17 @@ Qprelim <- function() {
 }
 
 # # Total effect or mediation
-Q1 <- "Questions\\Objectifs\\Objectifs"
+Q1 <- "Questions/Objectifs/Objectifs"
  
 #
 # # If mediation, name of variables
- Q2 <- "Questions\\Objectifs\\Objectifs2"
+ Q2 <- "Questions/Objectifs/Objectifs2"
  
 # Objectif du type intervenir sur le médiateur pour mitiger l'effet ?
-MedA <- "Questions\\Objectifs\\Objectifs_mediation_A"
+MedA <- "Questions/Objectifs/Objectifs_mediation_A"
  
 # Objectif du type comprendre le mécanisme en décomposant l'effet total
-MedB <- "Questions\\Objectifs\\Objectifs_mediation_B"
+MedB <- "Questions/Objectifs/Objectifs_mediation_B"
  
 
 

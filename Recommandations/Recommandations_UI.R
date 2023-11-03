@@ -1,2 +1,2 @@
-RecoMed <- "Recommandations\\Recommandations" # Mediation
-RecoTot <- "Recommandations\\Recommandations_TotalEffect" # Effet total
+RecoMed <- "Recommandations/Recommandations" # Mediation
+RecoTot <- "Recommandations/Recommandations_TotalEffect" # Effet total

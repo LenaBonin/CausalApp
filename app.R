@@ -4,10 +4,10 @@ library(shinyalert)
 library(tidyverse)
 library(DT)
 
-source("Questions\\Questionnaire_Obj_UI.R")
-source("Questions\\Questionnaire_TotalEffect_UI.R")
-source("Questions\\Questionnaire_Mediation_UI.R")
-source("Recommandations\\Recommandations_UI.R")
+source("Questions/Questionnaire_Obj_UI.R", local = T)
+source("Questions/Questionnaire_TotalEffect_UI.R", local = T)
+source("Questions/Questionnaire_Mediation_UI.R")
+source("Recommandations/Recommandations_UI.R")
 
 
 
@@ -99,15 +99,15 @@ server <- function(input, output, session) {
   })
   
   # Chargement et exécution des fichiers "_server"
-  source("Questions\\Questionnaire_Obj_Server.R", local = T)
+  source("Questions/Questionnaire_Obj_Server.R", local = T)
   observe_events_Objectifs(input, output, session, currentPage, values)
-  source("Questions\\Questionnaire_TotalEffect_Server.R", local = T)$value 
+  source("Questions/Questionnaire_TotalEffect_Server.R", local = T)$value 
   observe_events_TotalEffect(input, output, session, currentPage, values)
-  source("Questions\\Questionnaire_Mediation_Server.R", local = T)$value 
+  source("Questions/Questionnaire_Mediation_Server.R", local = T)$value 
   observe_events_Mediation(input, output, session, currentPage, values)
-  source("Recommandations\\Recommandations_Server.R")
+  source("Recommandations/Recommandations_Server.R")
   observe_events_Recommandations(input, output, session, currentPage, values)
-  source("Recommandations\\Recommandations_TotalEffect_Server.R")
+  source("Recommandations/Recommandations_TotalEffect_Server.R")
   observe_events_Recommandations_Tot(input, output, session, currentPage, values)
   
 }

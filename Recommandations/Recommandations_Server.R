@@ -407,6 +407,7 @@ observe_events_Recommandations <- function(input, output, session, currentPage, 
                      <br> <br>  Natural effect model : Package <i> CMAverse </i> choisissez le modèle <i> ne </i> ")
       }
     }
+    Pac
   })
   
   ## Output de la partie Package
