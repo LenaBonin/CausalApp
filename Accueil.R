@@ -2,7 +2,7 @@ fluidRow(
   column(12,
          HTML(
            "<strong> <font size = '6'> Bienvenue </font> </strong> <br> 
-         Cette application a pour objectif de vous guider dans le choix des estimands et des méthodes pour effectuer une analyse causale,
+         Cette application a pour objectif de vous guider dans le choix des estimands et des méthodes pour effectuer une analyse causale 
          ou une analyse de mediation. Elle a été développée dans un cadre appliqué à l'épidémiologie sociale. Pour le moment, l'application est basée principalement sur l'approche contrefactuelle.<br>
          
          <br>
