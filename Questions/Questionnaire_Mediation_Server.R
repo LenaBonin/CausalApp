@@ -314,12 +314,12 @@ observe_events_Mediation <- function(input, output, session, currentPage, values
     outcome <- ifelse(input$Outcome=="", "l'outcome", input$Outcome)
     texte <- "<ul>"
     if(input$question1=="Oui"){texte <- paste(texte, " <li> Effet de", exposition, "sur", outcome, "</li>")}
-    if(input$ObjMedA1=="Oui"){texte <- paste(texte, "<br/> <li> Effet de", exposition, "sur", outcome, "après la miste en place d'une intervention qui affecte", mediateur, "</li>")}
+    if(input$ObjMedA1=="Oui"){texte <- paste(texte, "<br/> <li> Effet de", exposition, "sur", outcome, "après la mise en place d'une intervention qui affecte", mediateur, "</li>")}
     if(input$ObjMedA2=="Oui"){texte <- paste(texte, "<br/> <li> Effet de", exposition, "sur", outcome, "si on supprimait complètement", mediateur, "</li>")}
     if(input$ObjMedA3=="Oui"){texte <- paste(texte, "<br/> <li> Part de l'effet de ", exposition, "sur", outcome, "qui pourrait être éliminée en supprimant", mediateur, "pour tous les individus", "</li>")}
     if(input$ObjMedB1=="Oui"){texte <- paste(texte, "<br/> <li> Effet de", exposition, "sur", outcome, "qui passe par", mediateur, "</li>")}
     if(input$ObjMedB2=="Oui"){texte <- paste(texte, "<br/> <li> Effet de", exposition, "sur", outcome, "qui ne passe pas par", mediateur, "</li>")}
-    if(input$ObjMedB3=="Oui"){texte <- paste(texte, "<br/> <li> Effet de", exposition, "sur", outcome, "sit tous les individus avait la valeur de", mediateur, "d'une categorie fixée", "</li>")}
+    if(input$ObjMedB3=="Oui"){texte <- paste(texte, "<br/> <li> Effet de", exposition, "sur", outcome, "si tous les individus avait la valeur de", mediateur, "d'une categorie fixée", "</li>")}
     if(input$ObjMedB4=="Oui"){texte <- paste(texte, "<br/> <li> Part de l'effet de", exposition, "sur", outcome, "qui est due à l'effet de", exposition, "sur", mediateur, "</li>")}
     texte <- paste(texte, "</ul>")
     HTML(texte)
