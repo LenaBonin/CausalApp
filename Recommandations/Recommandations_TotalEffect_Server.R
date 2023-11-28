@@ -66,7 +66,7 @@ observe_events_Recommandations_Tot <- function(input, output, session, currentPa
     <b>2- Ignorabilité / Echangeabilité :</b> la valeur de l'outcome potentiel sous l'exposition <i> a </i> est indépedent de la valeur de l'exposition reçue <br>
     <b>3- Non-interférence :</b> l'outcome d'un individu n'est pas affecté par la valeur de l'exposition d'un autre individu <br>
     <b>4- Consistence :</b> l'outcome potentiel d'un individu sous une certaine valeur d'exposition correspond à la valeur de l'outcome qu'il aurait effectivement pris sous cette exposition <br>
-     <br> <i>Remarque 1 : </i> ces hypothèsespeuvent être formulées de façon conditionnelle, c'est-à-dire en rajoutant 'conditionnellement aux facteurs de confusion'. <br>
+     <br> <i>Remarque 1 : </i> ces hypothèses peuvent être formulées de façon conditionnelle, c'est-à-dire en rajoutant 'conditionnellement aux facteurs de confusion'. <br>
     <br> <i>Remarque 2 : </i> ces hypothèses sont difficiles à tester en pratique"
     
     #Positivité
@@ -89,7 +89,7 @@ observe_events_Recommandations_Tot <- function(input, output, session, currentPa
     }
     
     else{
-      Hyp <- paste(Hyp, "<br> <br> Vous avez indiquer ne pas suspecter de problème liée à la positivité. ")
+      Hyp <- paste(Hyp, "<br> <br> Vous avez indiquer ne pas suspecter de problème lié à la positivité. ")
     }
     
     # Facteurs de confusion non mesurés
@@ -121,7 +121,7 @@ observe_events_Recommandations_Tot <- function(input, output, session, currentPa
       <br> Matching : package <i> MatchIt </i>
       <br> Stratification : vous pouvez créer les strates en utilisant la fonction <i>Quintiles</i> de R
       <br>
-      <br> Vous pouvez aussi éventuellement utilisée la standardisation/g-computation. Pour cela vous pouvez utiliser le package <i>stdReg</i>"
+      <br> Vous pouvez aussi éventuellement utiliser la standardisation/g-computation. Pour cela vous pouvez utiliser le package <i>stdReg</i>"
     }
     else{
       Pac <- "G-computation/Standardisation : code à la main (voir tutoriel dans l'onglet Ressources)

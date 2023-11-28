@@ -4,8 +4,8 @@ library(shinyalert)
 library(tidyverse)
 library(DT)
 
-source("Questions/Questionnaire_Obj_UI.R", local = T)
-source("Questions/Questionnaire_TotalEffect_UI.R", local = T)
+source("Questions/Questionnaire_Obj_UI.R")
+source("Questions/Questionnaire_TotalEffect_UI.R")
 source("Questions/Questionnaire_Mediation_UI.R")
 source("Recommandations/Recommandations_UI.R")
 
